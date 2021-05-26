@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/nav_goods">
+
+    <fragment
+        android:id="@+id/nav_purchase"
+        android:name="com.topolaris.wmslite.ui.purchase.PurchaseFragment"
+        android:label="@string/menu_purchase"
+        tools:layout="@layout/fragment_purchase" />
+
+    <fragment
+        android:id="@+id/nav_shipment"
+        android:name="com.topolaris.wmslite.ui.shipment.ShipmentFragment"
+        android:label="@string/menu_shipment"
+        tools:layout="@layout/fragment_shipment" />
+    <fragment
+        android:id="@+id/nav_login"
+        android:name="com.topolaris.wmslite.ui.login.LoginFragment"
+        android:label="@string/login_login"
+        tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/nav_goods"
+        android:name="com.topolaris.wmslite.ui.goods.GoodsFragment"
+        android:label="@string/menu_goods"
+        tools:layout="@layout/fragment_goods"/>
+</navigation>
