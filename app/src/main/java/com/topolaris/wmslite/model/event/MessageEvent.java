@@ -11,15 +11,15 @@ public class MessageEvent {
     /**
      * 事件类型，详细定义参见MessageType
      */
-    private MessageType messageType;
+    private final MessageType messageType;
     /**
      * 需要订阅者处理的数据，用Bundle携带
      */
-    private Bundle bundle;
+    private final Bundle bundle;
     /**
      * 携带的String对象
      */
-    private String message;
+    private final String message;
 
     private MessageEvent(MessageType messageType, Bundle bundle, String message) {
         this.messageType = messageType;
@@ -38,7 +38,6 @@ public class MessageEvent {
     public String getMessage() {
         return message;
     }
-
 
 
     public static class Builder {
