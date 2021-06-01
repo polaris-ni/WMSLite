@@ -25,5 +25,13 @@
         android:id="@+id/nav_goods"
         android:name="com.topolaris.wmslite.ui.goods.GoodsFragment"
         android:label="@string/menu_goods"
-        tools:layout="@layout/fragment_goods"/>
+        tools:layout="@layout/fragment_goods">
+        <action
+            android:id="@+id/action_nav_goods_to_detailsFragment"
+            app:destination="@id/nav_details" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_details"
+        android:name="com.topolaris.wmslite.ui.details.DetailsFragment"
+        tools:layout="@layout/fragment_details" />
 </navigation>

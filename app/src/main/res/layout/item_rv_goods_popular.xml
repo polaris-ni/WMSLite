@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     android:elevation="8dp"
+    android:id="@+id/item_rv_popular_mcv"
     app:cardCornerRadius="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,57 +19,54 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.505"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Long Goods Test" />
 
         <TextView
             android:id="@+id/item_popular_inventory"
-            android:layout_width="40dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:drawablePadding="4dp"
+            android:padding="4dp"
             android:textAlignment="center"
             android:textColor="@android:color/holo_orange_dark"
             android:textSize="12sp"
-            app:drawableStartCompat="@drawable/ic_warehouse"
+            app:drawableStartCompat="@drawable/ic_warehouse_12"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guideline4"
-            app:layout_constraintTop_toBottomOf="@+id/item_popular_location"
-            tools:text="100" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/item_popular_sold"
+            tools:text="10000" />
 
         <TextView
             android:id="@+id/item_popular_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:textSize="14sp"
+            android:textSize="12sp"
+            android:padding="4dp"
+            android:drawablePadding="4dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/item_popular_name"
-            tools:text="Wuhan, Hubei" />
+            tools:text="Wuhan, Hubei Wuhan, Hubei"
+            app:drawableStartCompat="@drawable/ic_location_12" />
 
         <TextView
             android:id="@+id/item_popular_sold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:drawablePadding="4dp"
+            android:padding="4dp"
             android:textAlignment="center"
             android:textSize="12sp"
-            app:drawableStartCompat="@drawable/ic_shop"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:drawableStartCompat="@drawable/ic_shop_12"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/item_popular_location"
             tools:text="1000" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

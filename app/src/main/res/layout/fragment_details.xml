@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.details.DetailsFragment">
+
+    <TextView
+        android:id="@+id/details_goods_head"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:padding="16dp"
+        android:text="@string/goods_info_info"
+        android:textSize="28sp"
+        android:textStyle="bold" />
+
+
+    <TextView
+        android:id="@+id/details_goods_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/details_goods_head"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:drawablePadding="16dp"
+        android:padding="8dp"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:drawableLeftCompat="@drawable/ic_goods_24"
+        tools:text="Long Goods Test" />
+
+    <TextView
+        android:id="@+id/details_goods_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/details_goods_name"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:drawablePadding="16dp"
+        android:padding="8dp"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:drawableLeftCompat="@drawable/ic_id_24"
+        tools:text="10086" />
+
+    <TextView
+        android:id="@+id/details_goods_inventory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/details_goods_id"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:drawablePadding="16dp"
+        android:padding="8dp"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:drawableLeftCompat="@drawable/ic_warehouse_24"
+        tools:text="10086" />
+
+    <TextView
+        android:id="@+id/details_goods_sold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/details_goods_inventory"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:drawablePadding="16dp"
+        android:padding="8dp"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:drawableLeftCompat="@drawable/ic_shop_24"
+        tools:text="10086" />
+
+
+    <TextView
+        android:id="@+id/details_goods_manufacturer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/details_goods_sold"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:drawablePadding="16dp"
+        android:padding="8dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:drawableLeftCompat="@drawable/ic_factory_24"
+        tools:text="TextView TextView TextView TextView TextView TextView TextView " />
+
+    <TextView
+        android:id="@+id/details_goods_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/details_goods_manufacturer"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:drawablePadding="16dp"
+        android:padding="8dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:drawableStartCompat="@drawable/ic_location_24"
+        tools:text="TextView" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/details_purchase"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_button"
+            android:text="@string/details_purchase"
+            android:textSize="18sp"
+            tools:ignore="ButtonStyle" />
+
+        <Button
+            android:layout_width="0dp"
+            android:id="@+id/details_shipment"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_button"
+            android:text="@string/details_shipment"
+            android:textSize="18sp"
+            tools:ignore="ButtonStyle" />
+    </LinearLayout>
+
+
+</RelativeLayout>

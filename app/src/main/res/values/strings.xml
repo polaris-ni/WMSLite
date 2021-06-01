@@ -27,4 +27,11 @@
     <string name="goods_item_image">Goods Image</string>
     <string name="fab_content">菜单</string>
     <string name="login_forgot">忘记密码</string>
+    <string name="details_goods_id">Goods Id</string>
+    <string name="details_goods_location">Stored in</string>
+    <string name="details_goods_manufacturer">Manufacturer</string>
+    <string name="details_goods_inventory">Inventory</string>
+    <string name="details_goods_sold">Sold</string>
+    <string name="details_purchase">采购</string>
+    <string name="details_shipment">销售</string>
 </resources>

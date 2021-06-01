@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.topolaris.wmslite.databinding.ActivityMainBinding;
 import com.topolaris.wmslite.model.event.MessageEvent;
+import com.topolaris.wmslite.model.event.MessageType;
 import com.topolaris.wmslite.model.user.User;
 import com.topolaris.wmslite.repository.network.database.DatabaseUtil;
 import com.topolaris.wmslite.utils.ThreadPool;
@@ -49,12 +50,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void mainMessageHandler(MessageEvent messageEvent) {
-        switch (messageEvent.getMessageType()) {
-            case MAIN_TOAST_MAKER:
-                Toast.makeText(WMSLiteApplication.context, messageEvent.getMessage(), Toast.LENGTH_SHORT).show();
-                break;
-            default:
-                break;
+        if (messageEvent.getMessageType() == MessageType.MAIN_TOAST_MAKER) {
+            Toast.makeText(WMSLiteApplication.context, messageEvent.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -94,6 +91,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        finish();
+//        finish();
     }
 }

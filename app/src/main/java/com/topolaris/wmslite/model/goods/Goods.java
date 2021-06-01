@@ -13,20 +13,47 @@ import java.util.Objects;
  * description 商品类
  * @date 2021/5/22 17:48
  */
-public class Goods extends BaseEntity{
+public class Goods extends BaseEntity implements Parcelable{
     private long index;
     private String name;
     private String location;
     private int inventory;
     private String manufacturer;
-    private double price;
+    private int sold;
 
-    public double getPrice() {
-        return price;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(index);
+        dest.writeString(name);
+        dest.writeString(location);
+        dest.writeInt(inventory);
+        dest.writeString(manufacturer);
+        dest.writeInt(sold);
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Goods> CREATOR = new Creator<Goods>() {
+        @Override
+        public Goods createFromParcel(Parcel in) {
+            return new Goods(in);
+        }
+
+        @Override
+        public Goods[] newArray(int size) {
+            return new Goods[size];
+        }
+    };
+
+    public int getSold() {
+        return sold;
+    }
+
+    public void setSold(int sold) {
+        this.sold = sold;
     }
 
     public Goods() {

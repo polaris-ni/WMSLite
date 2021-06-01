@@ -1,13 +1,16 @@
 package com.topolaris.wmslite.ui.goods;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.card.MaterialCardView;
 import com.topolaris.wmslite.R;
 import com.topolaris.wmslite.model.goods.Goods;
 
@@ -22,12 +25,14 @@ import java.util.ArrayList;
  */
 public class PopularGoodsAdapter extends RecyclerView.Adapter<PopularGoodsAdapter.PopularAdapterViewHolder> {
     private ArrayList<Goods> goods;
+    private GoodsFragment fragment;
 
-    public void setGoods(ArrayList<Goods> goods) {
+    public PopularGoodsAdapter(ArrayList<Goods> goods, GoodsFragment fragment) {
         this.goods = goods;
+        this.fragment = fragment;
     }
 
-    public PopularGoodsAdapter(ArrayList<Goods> goods) {
+    public void setGoods(ArrayList<Goods> goods) {
         this.goods = goods;
     }
 
@@ -35,16 +40,23 @@ public class PopularGoodsAdapter extends RecyclerView.Adapter<PopularGoodsAdapte
     @NotNull
     @Override
     public PopularAdapterViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        return new PopularAdapterViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_item_goods_popular, parent, false));
+        return new PopularAdapterViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_goods_popular, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull PopularAdapterViewHolder holder, int position) {
-        holder.name.setText(goods.get(position).getName());
-        holder.inventory.setText(String.valueOf(goods.get(position).getPrice()));
-        // TODO: 2021/5/25 待修改
-        holder.sold.setText("1000");
-        holder.location.setText("Wuhan, hubei");
+        Goods g = this.goods.get(position);
+        // TODO: 2021/6/1
+        g.setSold(0);
+        holder.name.setText(g.getName());
+        holder.inventory.setText(String.valueOf(g.getInventory()));
+        holder.sold.setText(String.valueOf(g.getSold()));
+        holder.location.setText(g.getLocation());
+        holder.materialCardView.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("GOODS", g);
+            Navigation.findNavController(fragment.requireView()).navigate(R.id.action_nav_goods_to_detailsFragment, bundle);
+        });
     }
 
     @Override
@@ -57,6 +69,7 @@ public class PopularGoodsAdapter extends RecyclerView.Adapter<PopularGoodsAdapte
         private final TextView inventory;
         private final TextView sold;
         private final TextView location;
+        private final MaterialCardView materialCardView;
 
         public PopularAdapterViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
@@ -64,6 +77,7 @@ public class PopularGoodsAdapter extends RecyclerView.Adapter<PopularGoodsAdapte
             inventory = itemView.findViewById(R.id.item_popular_inventory);
             sold = itemView.findViewById(R.id.item_popular_sold);
             location = itemView.findViewById(R.id.item_popular_location);
+            materialCardView = itemView.findViewById(R.id.item_rv_popular_mcv);
         }
     }
 }

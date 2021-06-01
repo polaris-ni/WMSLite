@@ -1,11 +1,13 @@
 package com.topolaris.wmslite.ui.goods;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
@@ -23,13 +25,12 @@ import java.util.ArrayList;
  */
 public class AllGoodsAdapter extends RecyclerView.Adapter<AllGoodsAdapter.MyViewHolder> {
     private static final String TAG = "GoodsAdapter";
-    //    private final GoodsFragment fragment;
+    private final GoodsFragment fragment;
     private ArrayList<Goods> goods;
 
     public AllGoodsAdapter(ArrayList<Goods> goods, GoodsFragment fragment) {
         this.goods = goods;
-//        this.fragment = fragment;
-//        fragment.setHeadInfo(goods.get(0));
+        this.fragment = fragment;
     }
 
     public void setGoods(ArrayList<Goods> goods) {
@@ -40,7 +41,7 @@ public class AllGoodsAdapter extends RecyclerView.Adapter<AllGoodsAdapter.MyView
     @NotNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_item_goods_all, parent, false));
+        return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_goods_all, parent, false));
     }
 
     @Override
@@ -50,12 +51,12 @@ public class AllGoodsAdapter extends RecyclerView.Adapter<AllGoodsAdapter.MyView
         holder.inventory.setText(String.valueOf(goods.get(position).getInventory()));
         holder.manufacturer.setText(goods.get(position).getManufacturer());
         holder.materialCardView.setOnClickListener(v -> {
-            // TODO: 2021/5/25 跳转到详情界面
-//            fragment.setHeadInfo(goods.get(position));
-//                Bundle bundle = new Bundle();
-//                bundle.putParcelable("GOODS", goods.get(position));
-//                Log.e(TAG, "onClick: here!");
-//                EventBus.getDefault().postSticky(new MessageEvent.Builder(MessageType.GOODS_ITEM_CLICK).setBundle(bundle));
+            Goods g = this.goods.get(position);
+            // TODO: 2021/6/1 售出数量计算
+            g.setSold(0);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("GOODS", g);
+            Navigation.findNavController(fragment.requireView()).navigate(R.id.action_nav_goods_to_detailsFragment, bundle);
         });
     }
 
@@ -71,7 +72,7 @@ public class AllGoodsAdapter extends RecyclerView.Adapter<AllGoodsAdapter.MyView
 
         public MyViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
-            materialCardView = itemView.findViewById(R.id.item_mcv);
+            materialCardView = itemView.findViewById(R.id.item_rv_all_mcv);
             index = itemView.findViewById(R.id.item_all_index);
             name = itemView.findViewById(R.id.item_all_name);
             inventory = itemView.findViewById(R.id.item_all_inventory);

@@ -2,7 +2,6 @@ package com.topolaris.wmslite.ui.goods;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -54,7 +53,7 @@ public class GoodsFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
         popularRecyclerView.setLayoutManager(linearLayoutManager);
-        PopularGoodsAdapter popularGoodsAdapter = new PopularGoodsAdapter(Test.goods);
+        PopularGoodsAdapter popularGoodsAdapter = new PopularGoodsAdapter(Test.goods, this);
         popularRecyclerView.setAdapter(popularGoodsAdapter);
 
         mViewModel.getGoods().observe(getViewLifecycleOwner(), goods -> {
