@@ -13,29 +13,7 @@ import java.util.Objects;
  * description 商品类
  * @date 2021/5/22 17:48
  */
-public class Goods extends BaseEntity implements Parcelable{
-    private long index;
-    private String name;
-    private String location;
-    private int inventory;
-    private String manufacturer;
-    private int sold;
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(index);
-        dest.writeString(name);
-        dest.writeString(location);
-        dest.writeInt(inventory);
-        dest.writeString(manufacturer);
-        dest.writeInt(sold);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
+public class Goods extends BaseEntity implements Parcelable {
     public static final Creator<Goods> CREATOR = new Creator<Goods>() {
         @Override
         public Goods createFromParcel(Parcel in) {
@@ -47,14 +25,12 @@ public class Goods extends BaseEntity implements Parcelable{
             return new Goods[size];
         }
     };
-
-    public int getSold() {
-        return sold;
-    }
-
-    public void setSold(int sold) {
-        this.sold = sold;
-    }
+    private long index;
+    private String name;
+    private String location;
+    private long inventory;
+    private String manufacturer;
+    private int sold;
 
     public Goods() {
     }
@@ -76,11 +52,34 @@ public class Goods extends BaseEntity implements Parcelable{
     }
 
     @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(index);
+        dest.writeString(name);
+        dest.writeString(location);
+        dest.writeLong(inventory);
+        dest.writeString(manufacturer);
+        dest.writeInt(sold);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public int getSold() {
+        return sold;
+    }
+
+    public void setSold(int sold) {
+        this.sold = sold;
+    }
+
+    @Override
     public void convertFromMap(HashMap<String, String> map) {
         index = Long.parseLong(Objects.requireNonNull(map.getOrDefault("index", "0")));
         name = map.getOrDefault("name", "");
         location = map.getOrDefault("location", "");
-        inventory = Integer.parseInt(Objects.requireNonNull(map.getOrDefault("inventory", "0")));
+        inventory = Long.parseLong(Objects.requireNonNull(map.getOrDefault("inventory", "0")));
         manufacturer = map.getOrDefault("manufacturer", "");
     }
 
@@ -113,11 +112,11 @@ public class Goods extends BaseEntity implements Parcelable{
         this.location = location;
     }
 
-    public int getInventory() {
+    public long getInventory() {
         return inventory;
     }
 
-    public void setInventory(int inventory) {
+    public void setInventory(long inventory) {
         this.inventory = inventory;
     }
 
