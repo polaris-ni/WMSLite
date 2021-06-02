@@ -34,4 +34,6 @@
     <string name="details_goods_sold">Sold</string>
     <string name="details_purchase">采购</string>
     <string name="details_shipment">销售</string>
+    <string name="order_title_purchase">Purchase Orders</string>
+    <string name="order_title_shipment">Shipment Orders</string>
 </resources>

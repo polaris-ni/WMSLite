@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.topolaris.wmslite.R;
+import com.topolaris.wmslite.repository.local.Cache;
 import com.topolaris.wmslite.utils.Test;
 import com.topolaris.wmslite.utils.WMSLiteApplication;
 
@@ -27,6 +28,7 @@ public class GoodsFragment extends Fragment {
     RecyclerView allRecyclerView, popularRecyclerView;
     private GoodsViewModel mViewModel;
     private SwipeRefreshLayout swipeRefreshLayout;
+    // TODO: 2021/6/2 搜索逻辑
     private EditText search;
 
     @Override
@@ -48,7 +50,8 @@ public class GoodsFragment extends Fragment {
         }
 
         allRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
-        AllGoodsAdapter allGoodsAdapter = new AllGoodsAdapter(Test.goods, this);
+        // TODO: 2021/6/2 注意数据刷新逻辑
+        AllGoodsAdapter allGoodsAdapter = new AllGoodsAdapter(Cache.getGoodsCache(), this);
         allRecyclerView.setAdapter(allGoodsAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);

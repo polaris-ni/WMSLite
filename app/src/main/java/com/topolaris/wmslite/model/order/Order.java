@@ -1,4 +1,4 @@
-package com.topolaris.wmslite.model.shipment;
+package com.topolaris.wmslite.model.order;
 
 import com.topolaris.wmslite.model.base.BaseEntity;
 
@@ -7,10 +7,10 @@ import java.util.Objects;
 
 /**
  * @author toPolaris
- * description 销售记录实体类
- * @date 2021/6/2 13:51
+ * description 进货单实体类
+ * @date 2021/6/2 14:09
  */
-public class Shipment extends BaseEntity {
+public class Order extends BaseEntity {
     private long id;
     private long goodsId;
     private long number;
@@ -18,7 +18,7 @@ public class Shipment extends BaseEntity {
     private String date;
     private boolean revoked;
 
-    public Shipment() {
+    public Order() {
     }
 
     public long getId() {

@@ -34,7 +34,7 @@ public class GoodsViewModel extends ViewModel {
         return goods;
     }
 
-    public MutableLiveData<ArrayList<Goods>> getPopular() {
+    public LiveData<ArrayList<Goods>> getPopular() {
         return popular;
     }
 
