@@ -3,25 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusableInTouchMode="true"
     android:orientation="vertical"
     tools:context=".ui.goods.GoodsFragment">
 
-    <EditText
-        android:id="@+id/goods_et_search"
+
+    <SearchView
+        android:id="@+id/goods_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:layout_marginBottom="16dp"
         android:background="@drawable/bg_search"
-        android:drawableEnd="@drawable/ic_goods_search"
         android:hint="@string/goods_hint_search"
-        android:importantForAutofill="no"
-        android:inputType="text"
-        android:paddingStart="24dp"
-        android:paddingTop="16dp"
-        android:paddingEnd="24dp"
-        android:paddingBottom="16dp"
+        android:iconifiedByDefault="false"
+        android:queryHint="@string/goods_search_hint"
+        android:imeOptions="actionSearch"
         android:textColorHint="@color/gray_light" />
 
 
@@ -68,9 +63,6 @@
                 android:layout_height="match_parent" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </LinearLayout>
-
-
-
 
 
 </LinearLayout>

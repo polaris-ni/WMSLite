@@ -4,10 +4,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -29,7 +32,7 @@ public class GoodsFragment extends Fragment {
     private GoodsViewModel mViewModel;
     private SwipeRefreshLayout swipeRefreshLayout;
     // TODO: 2021/6/2 搜索逻辑
-    private EditText search;
+    private SearchView searchView;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -80,8 +83,6 @@ public class GoodsFragment extends Fragment {
         allRecyclerView = requireView().findViewById(R.id.goods_rv_all);
         popularRecyclerView = requireView().findViewById(R.id.goods_rv_popular);
         swipeRefreshLayout = requireView().findViewById(R.id.goods_swipe_refresh);
-        search = requireView().findViewById(R.id.goods_et_search);
+        searchView = requireView().findViewById(R.id.goods_search);
     }
-
-
 }

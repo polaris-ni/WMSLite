@@ -36,4 +36,5 @@
     <string name="details_shipment">销售</string>
     <string name="order_title_purchase">Purchase Orders</string>
     <string name="order_title_shipment">Shipment Orders</string>
+    <string name="goods_search_hint">请输入要搜索的商品</string>
 </resources>
