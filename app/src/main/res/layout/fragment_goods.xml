@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,56 +14,86 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:background="@drawable/bg_search"
-        android:hint="@string/goods_hint_search"
         android:iconifiedByDefault="false"
-        android:queryHint="@string/goods_search_hint"
         android:imeOptions="actionSearch"
-        android:textColorHint="@color/gray_light" />
+        android:queryHint="@string/goods_search_hint"
+        android:textColorHint="@color/gray_light"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/bg_goods"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/goods_search">
 
         <TextView
+            android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
             android:text="@string/goods_title_1"
             android:textColor="@color/white"
             android:textSize="24sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/goods_rv_popular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@+id/textView3"
+            app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
         <TextView
+            android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="8dp"
             android:text="@string/goods_title_2"
             android:textColor="@color/white"
             android:textSize="24sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/goods_swipe_refresh"
+            app:layout_constraintTop_toBottomOf="@+id/goods_rv_popular" />
 
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/goods_swipe_refresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/goods_rv_all"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-    </LinearLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/purple_200"
+            android:clickable="true"
+            android:contentDescription="@string/fab_content"
+            android:src="@drawable/ic_fab_menu"
+            app:elevation="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:rippleColor="@color/gray_light" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </LinearLayout>

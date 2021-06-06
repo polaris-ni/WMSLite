@@ -6,17 +6,6 @@
     app:startDestination="@id/nav_goods">
 
     <fragment
-        android:id="@+id/nav_purchase"
-        android:name="com.topolaris.wmslite.ui.purchase.PurchaseFragment"
-        android:label="@string/menu_purchase"
-        tools:layout="@layout/fragment_purchase" />
-
-    <fragment
-        android:id="@+id/nav_shipment"
-        android:name="com.topolaris.wmslite.ui.shipment.ShipmentFragment"
-        android:label="@string/menu_shipment"
-        tools:layout="@layout/fragment_shipment" />
-    <fragment
         android:id="@+id/nav_login"
         android:name="com.topolaris.wmslite.ui.login.LoginFragment"
         android:label="@string/login_login"
@@ -31,9 +20,16 @@
             app:destination="@id/nav_details"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_nav_goods_to_nav_order_single"
+            app:destination="@id/nav_order_single" />
     </fragment>
     <fragment
         android:id="@+id/nav_details"
         android:name="com.topolaris.wmslite.ui.details.DetailsFragment"
         tools:layout="@layout/fragment_details" />
+    <fragment
+        android:id="@+id/nav_order_single"
+        android:name="com.topolaris.wmslite.ui.order.single.OrderPageFragment"
+        tools:layout="@layout/fragment_order_page" />
 </navigation>

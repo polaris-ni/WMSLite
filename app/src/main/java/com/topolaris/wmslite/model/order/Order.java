@@ -2,6 +2,8 @@ package com.topolaris.wmslite.model.order;
 
 import com.topolaris.wmslite.model.base.BaseEntity;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -82,5 +84,18 @@ public class Order extends BaseEntity {
     @Override
     public String getSql() {
         return "(" + id + ", " + goodsId + ", " + number + ", " + (executed ? 1 : 0) + ", \"" + date + "\", " + (revoked ? 1 : 0) + ")";
+    }
+
+    @NotNull
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", goodsId=" + goodsId +
+                ", number=" + number +
+                ", executed=" + executed +
+                ", date='" + date + '\'' +
+                ", revoked=" + revoked +
+                '}';
     }
 }

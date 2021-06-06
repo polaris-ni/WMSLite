@@ -1,5 +1,7 @@
 package com.topolaris.wmslite.ui.order.single;
 
+import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,7 +22,6 @@ import com.topolaris.wmslite.repository.local.Cache;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * @author toPolaris
@@ -27,6 +29,7 @@ import java.util.Objects;
  * @date 2021/6/2 17:12
  */
 public class OrderPageAdapter extends RecyclerView.Adapter<OrderPageAdapter.OrderPageAdapterViewHolder> {
+    private static final String TAG = "OrderPageAdapter";
     private final Fragment fragment;
     /**
      * type表示当前显示内容类型：0是出货单，1是进货单
@@ -50,8 +53,12 @@ public class OrderPageAdapter extends RecyclerView.Adapter<OrderPageAdapter.Orde
     @Override
     public void onBindViewHolder(@NonNull @NotNull OrderPageAdapterViewHolder holder, int position) {
         Order order = orders.get(position);
+        Log.e(TAG, "onBindViewHolder: " + order.toString());
         Goods goods = Cache.searchGoodsById(order.getGoodsId());
-        holder.name.setText(Objects.requireNonNull(goods).getName());
+        if (goods == null) {
+            return;
+        }
+        holder.name.setText(goods.getName());
         holder.inventory.setText(String.valueOf(goods.getInventory()));
         holder.number.setText(String.valueOf(order.getNumber()));
         holder.goodsId.setText(String.valueOf(order.getGoodsId()));
@@ -59,10 +66,10 @@ public class OrderPageAdapter extends RecyclerView.Adapter<OrderPageAdapter.Orde
             // 订单已经被审核员处理
             if (order.isRevoked()) {
                 // 订单被审核员撤销——撤销状态
-                holder.goodsStatusImage.setImageDrawable(fragment.requireActivity().getDrawable(R.drawable.ic_order_status_canceled));
+                holder.goodsStatusImage.setImageDrawable(ContextCompat.getDrawable(fragment.requireContext(),R.drawable.ic_order_status_canceled));
             } else {
                 // 订单被审核员确认——完成状态
-                holder.goodsStatusImage.setImageDrawable(fragment.requireActivity().getDrawable(R.drawable.ic_order_status_ok));
+                holder.goodsStatusImage.setImageDrawable(ContextCompat.getDrawable(fragment.requireContext(),R.drawable.ic_order_status_ok));
             }
         } else {
             // 订单未被审核员处理
@@ -70,21 +77,18 @@ public class OrderPageAdapter extends RecyclerView.Adapter<OrderPageAdapter.Orde
                 // 出货单
                 if (order.getNumber() > goods.getInventory()) {
                     // 出货数量大于库存——缺货状态
-                    holder.goodsStatusImage.setImageDrawable(fragment.requireActivity().getDrawable(R.drawable.ic_order_status_error));
+                    holder.goodsStatusImage.setImageDrawable(ContextCompat.getDrawable(fragment.requireContext(),R.drawable.ic_order_status_error));
                 } else {
                     // 出货数量不大于库存——等待状态
-                    holder.goodsStatusImage.setImageDrawable(fragment.requireActivity().getDrawable(R.drawable.ic_order_status_waiting));
+                    holder.goodsStatusImage.setImageDrawable(ContextCompat.getDrawable(fragment.requireContext(),R.drawable.ic_order_status_waiting));
                 }
             } else {
                 // 出货单——等待状态
-                holder.goodsStatusImage.setImageDrawable(fragment.requireActivity().getDrawable(R.drawable.ic_order_status_waiting));
+                holder.goodsStatusImage.setImageDrawable(ContextCompat.getDrawable(fragment.requireContext(),R.drawable.ic_order_status_waiting));
             }
         }
-        holder.materialCardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: 2021/6/2 跳转到订单处理界面
-            }
+        holder.materialCardView.setOnClickListener(v -> {
+            // TODO: 2021/6/2 跳转到订单处理界面
         });
     }
 

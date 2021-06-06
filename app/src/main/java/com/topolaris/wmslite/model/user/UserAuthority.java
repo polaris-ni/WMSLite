@@ -19,7 +19,11 @@ public class UserAuthority {
      */
     public static final int SHIPMENT = 3;
     /**
-     * 审核员权限，仅仅可以查看货物数据
+     * 审核员权限，可以查看货物数据，并对订单进行审核
      */
     public static final int CHECKER = 2;
+    /**
+     * 普通权限，仅可以查看货物数据
+     */
+    public static final int COMMON = 1;
 }

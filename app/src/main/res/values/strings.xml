@@ -21,10 +21,10 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="goods_info_info">Goods Information</string>
-    <string name="goods_hint_search">Search</string>
     <string name="goods_title_1">Popular Goods</string>
     <string name="goods_title_2">Goods List</string>
     <string name="goods_item_image">Goods Image</string>
+    <string name="goods_search_hint">请输入要搜索的商品</string>
     <string name="fab_content">菜单</string>
     <string name="login_forgot">忘记密码</string>
     <string name="details_goods_id">Goods Id</string>
@@ -36,5 +36,6 @@
     <string name="details_shipment">销售</string>
     <string name="order_title_purchase">Purchase Orders</string>
     <string name="order_title_shipment">Shipment Orders</string>
-    <string name="goods_search_hint">请输入要搜索的商品</string>
+    <string name="order_search_hint">请输入要搜索的订单</string>
+    <string name="order_status">订单状态</string>
 </resources>

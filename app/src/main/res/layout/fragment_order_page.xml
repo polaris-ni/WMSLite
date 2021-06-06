@@ -6,37 +6,37 @@
     android:orientation="vertical"
     tools:context=".ui.order.single.OrderPageFragment">
 
-    <EditText
-        android:id="@+id/order_et_search"
+    <SearchView
+        android:id="@+id/order_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:layout_marginBottom="16dp"
         android:background="@drawable/bg_search"
-        android:drawableEnd="@drawable/ic_goods_search"
-        android:hint="@string/goods_hint_search"
-        android:importantForAutofill="no"
-        android:inputType="text"
-        android:paddingStart="24dp"
-        android:paddingTop="16dp"
-        android:paddingEnd="24dp"
-        android:paddingBottom="16dp"
+        android:hint="@string/order_search_hint"
+        android:iconifiedByDefault="false"
+        android:imeOptions="actionSearch"
+        android:queryHint="@string/goods_search_hint"
         android:textColorHint="@color/gray_light" />
 
     <TextView
         android:id="@+id/order_title"
-        android:textStyle="bold"
-        android:textSize="24sp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:textSize="24sp"
+        android:textStyle="bold"
         tools:text="Purchase Orders" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/order_rv"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/order_swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="16dp" />
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/order_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </LinearLayout>

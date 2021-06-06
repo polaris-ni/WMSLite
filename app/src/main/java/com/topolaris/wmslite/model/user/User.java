@@ -33,7 +33,7 @@ public class User extends BaseEntity {
     /**
      * 用户所属等级
      */
-    private int authority = 2;
+    private int authority = UserAuthority.COMMON;
     /**
      * 账号是否已经在其他地方登录
      */

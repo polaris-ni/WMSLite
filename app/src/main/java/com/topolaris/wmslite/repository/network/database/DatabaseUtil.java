@@ -17,25 +17,34 @@ import java.util.HashMap;
  */
 public class DatabaseUtil {
     private static final String TAG = "DatabaseUtil";
-    private static final Connection CONNECTION = MySQLConnector.getConnection();
+    private static Connection connection = MySQLConnector.getConnection();
 
     /**
      * 解析无返回值的Sql语句
      *
      * @param sqlString 被解析的Sql语句
+     * @return 语句是否解析成功
      */
-    public static void executeSqlWithoutResult(String sqlString) {
+    public static boolean executeSqlWithoutResult(String sqlString) {
         try {
-            PreparedStatement stmt = CONNECTION.prepareStatement(sqlString);
+            if (connection == null) {
+                connection = MySQLConnector.getConnection();
+                if (connection == null) {
+                    return false;
+                }
+            }
+            PreparedStatement stmt = connection.prepareStatement(sqlString);
             // 关闭事务自动提交 ,这一行必须加上
-            CONNECTION.setAutoCommit(false);
+            connection.setAutoCommit(false);
             stmt.addBatch();
             stmt.executeBatch();
-            CONNECTION.commit();
+            connection.commit();
             stmt.close();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     /**
@@ -47,10 +56,18 @@ public class DatabaseUtil {
      * @return 返回对象集合
      */
     public static <E extends BaseEntity> ArrayList<E> executeSqlWithResult(String sqlString, Class<E> eClass) {
+        // 数据请求失败返回null，空数据返回空集合
+        if (connection == null) {
+            connection = MySQLConnector.getConnection();
+            if (connection == null) {
+                return null;
+            }
+        }
         ArrayList<E> result = new ArrayList<>();
         HashMap<String, String> map = new HashMap<>(8);
         try {
-            Statement stmt = CONNECTION.createStatement();
+            result = new ArrayList<>();
+            Statement stmt = connection.createStatement();
             ResultSet res = stmt.executeQuery(sqlString);
             if (res != null) {
                 while (res.next()) {

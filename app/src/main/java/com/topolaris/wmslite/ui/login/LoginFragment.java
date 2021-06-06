@@ -19,9 +19,11 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.topolaris.wmslite.R;
 import com.topolaris.wmslite.model.event.MessageEvent;
 import com.topolaris.wmslite.model.user.User;
+import com.topolaris.wmslite.model.user.UserAuthority;
+import com.topolaris.wmslite.repository.local.Cache;
 import com.topolaris.wmslite.repository.network.database.DatabaseUtil;
 import com.topolaris.wmslite.utils.ThreadPool;
-import com.topolaris.wmslite.utils.WMSLiteApplication;
+import com.topolaris.wmslite.utils.WmsLiteApplication;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -38,8 +40,8 @@ import static com.topolaris.wmslite.model.event.MessageType.MAIN_TOAST_MAKER;
 
 public class LoginFragment extends Fragment {
     private static final String TAG = "LoginFragment";
-    SharedPreferences.Editor editor;
     SwitchMaterial switchMaterial;
+    SharedPreferences sharedPreferences;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,11 +66,12 @@ public class LoginFragment extends Fragment {
         Button loginButton = requireView().findViewById(R.id.login_btn_login);
         switchMaterial = requireView().findViewById(R.id.login_sm_rem_pw);
 
-        SharedPreferences sharedPreferences = WMSLiteApplication.context.getSharedPreferences("config", Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
+        sharedPreferences = WmsLiteApplication.context.getSharedPreferences("config", Context.MODE_PRIVATE);
 
         String isRemembered = "isRemembered";
+        // 做数据恢复工作
         if (sharedPreferences.getBoolean(isRemembered, false)) {
+            // 上一次记住密码，根据权限请求数据
             switchMaterial.setChecked(true);
             String lastUsername = sharedPreferences.getString("username", "");
             String lastPassword = sharedPreferences.getString("password", "");
@@ -82,37 +85,57 @@ public class LoginFragment extends Fragment {
             checkAccount(username, password);
         });
 
-        forgot.setOnClickListener(v -> {
-            Toast.makeText(WMSLiteApplication.context, "请使用Uid登录或者向管理员查询密码", Toast.LENGTH_LONG).show();
-        });
+        forgot.setOnClickListener(v -> Toast.makeText(WmsLiteApplication.context, "请使用Uid登录或者向管理员查询密码", Toast.LENGTH_LONG).show());
     }
 
     private void checkAccount(String username, String password) {
         ThreadPool.executor.execute(() -> {
-            User user = new User(username, password);
-            String querySql = "select * from wmsusers where uName = \"" + username + "\" and uPassword = \"" + password + "\";";
+            String querySql = "select * from wmsusers where uName = \"" + username + "\";";
             ThreadPool.executor.execute(() -> {
+                User user = new User(username, password);
+                User u;
                 ArrayList<User> result = DatabaseUtil.executeSqlWithResult(querySql, User.class);
-                User u = result.get(0);
-                if (u.equals(user)) {
+                if (result == null) {
+                    EventBus.getDefault().post(new MessageEvent.Builder(MAIN_TOAST_MAKER).setMessage("账号列表获取失败").build());
+                    return;
+                } else if (result.isEmpty()) {
+                    // 账户列表为空
+                    EventBus.getDefault().post(new MessageEvent.Builder(MAIN_TOAST_MAKER).setMessage("账户不存在").build());
+                    return;
+                } else {
+                    u = result.get(0);
+                }
+                if (!user.equals(u)) {
+                    // 如果密码或UID与账号不匹配，则弹出提示
+                    EventBus.getDefault().post(new MessageEvent.Builder(MAIN_TOAST_MAKER).setMessage("密码或UID错误").build());
+                } else {
+                    // 账号密码正确，接下来判断账号是否已经登录
                     if (u.isOnline()) {
+                        // 账号在别处登录
                         MessageEvent messageEvent = new MessageEvent.Builder(MAIN_TOAST_MAKER).setMessage("账号已在别处登录").build();
                         EventBus.getDefault().post(messageEvent);
                     } else {
+                        // 账号正常登录，设置在线状态为true，并设置当前登录账户
                         u.setOnline(true);
-                        WMSLiteApplication.setAccount(u);
+                        WmsLiteApplication.setAccount(u);
                         EventBus.getDefault().postSticky(new MessageEvent.Builder(LOGIN_NAVIGATE_BACK).build());
                         MessageEvent messageEvent = new MessageEvent.Builder(MAIN_TOAST_MAKER).setMessage(u.getAuthorityString()).build();
                         EventBus.getDefault().post(messageEvent);
-                        // 状态设置为上线，需要更新本地账户缓存
+                        // 状态设置为上线
                         String sql = "update wmsusers set online = 1 where uName = \"" + u.getName() + "\" and uPassword = \"" + u.getPassword() + "\";";
                         DatabaseUtil.executeSqlWithoutResult(sql);
+                        user = u;
+                        // 根据登录用户权限请求相应数据到本地
+                        if (user.getAuthority() == UserAuthority.CHECKER || user.getAuthority() == UserAuthority.ADMINISTRATOR) {
+                            Cache.updateAllCache();
+                        } else if (user.getAuthority() == UserAuthority.PURCHASER) {
+                            Cache.updateOrdersCache();
+                        } else if (user.getAuthority() == UserAuthority.SHIPMENT) {
+                            Cache.updateShipmentsCache();
+                        }
                     }
-                } else {
-                    MessageEvent messageEvent = new MessageEvent.Builder(MAIN_TOAST_MAKER).setMessage("账户不存在或密码错误").build();
-                    EventBus.getDefault().post(messageEvent);
                 }
-                saveNameAndPassword(username, password, editor, switchMaterial);
+                saveNameAndPassword(user, switchMaterial);
             });
         });
     }
@@ -124,25 +147,22 @@ public class LoginFragment extends Fragment {
         EventBus.getDefault().unregister(this);
     }
 
-    private void saveNameAndPassword(String username, String password, SharedPreferences.Editor editor, SwitchMaterial switchMaterial) {
+    private void saveNameAndPassword(User user, SwitchMaterial switchMaterial) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         if (switchMaterial.isChecked()) {
             editor.putBoolean("isRemembered", true);
-            editor.putString("username", username);
-            editor.putString("password", password);
+            editor.putString("username", user.getName());
+            editor.putString("password", user.getPassword());
         } else {
             editor.putBoolean("isRemembered", false);
         }
-        editor.commit();
+        editor.apply();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void loginMessageHandler(MessageEvent messageEvent) {
-        switch (messageEvent.getMessageType()) {
-            case LOGIN_NAVIGATE_BACK:
-                Navigation.findNavController(requireView()).popBackStack();
-                break;
-            default:
-                break;
+        if (messageEvent.getMessageType() == LOGIN_NAVIGATE_BACK) {
+            Navigation.findNavController(requireView()).popBackStack();
         }
     }
 }

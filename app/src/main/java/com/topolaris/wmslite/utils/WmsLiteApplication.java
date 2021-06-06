@@ -11,10 +11,9 @@ import com.topolaris.wmslite.model.user.User;
  * description 自定义的Application类
  * @date 2021/5/19 14:41
  */
-public class WMSLiteApplication extends Application {
+public class WmsLiteApplication extends Application {
     @SuppressLint("StaticFieldLeak")
     public static Context context;
-//    public static boolean isFirst = true;
     private static User account;
 
     public static User getAccount() {

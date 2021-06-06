@@ -4,13 +4,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -18,10 +16,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.topolaris.wmslite.R;
+import com.topolaris.wmslite.model.user.UserAuthority;
 import com.topolaris.wmslite.repository.local.Cache;
 import com.topolaris.wmslite.utils.Test;
-import com.topolaris.wmslite.utils.WMSLiteApplication;
+import com.topolaris.wmslite.utils.WmsLiteApplication;
 
 /**
  * @author toPolaris
@@ -31,8 +31,9 @@ public class GoodsFragment extends Fragment {
     RecyclerView allRecyclerView, popularRecyclerView;
     private GoodsViewModel mViewModel;
     private SwipeRefreshLayout swipeRefreshLayout;
-    // TODO: 2021/6/2 搜索逻辑
     private SearchView searchView;
+    private FloatingActionButton menu;
+    // TODO: 2021/6/2 搜索逻辑
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -48,17 +49,17 @@ public class GoodsFragment extends Fragment {
 
         initView();
 
-        if (WMSLiteApplication.getAccount() == null) {
+        if (WmsLiteApplication.getAccount() == null) {
             Navigation.findNavController(requireView()).navigate(R.id.nav_login);
         }
 
         allRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
-        // TODO: 2021/6/2 注意数据刷新逻辑
         AllGoodsAdapter allGoodsAdapter = new AllGoodsAdapter(Cache.getGoodsCache(), this);
         allRecyclerView.setAdapter(allGoodsAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
         popularRecyclerView.setLayoutManager(linearLayoutManager);
+        // TODO: 2021/6/2 注意数据刷新逻辑
         PopularGoodsAdapter popularGoodsAdapter = new PopularGoodsAdapter(Test.goods, this);
         popularRecyclerView.setAdapter(popularGoodsAdapter);
 
@@ -77,6 +78,32 @@ public class GoodsFragment extends Fragment {
             swipeRefreshLayout.setRefreshing(false);
         });
 
+        menu.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            switch (WmsLiteApplication.getAccount().getAuthority()) {
+                case UserAuthority
+                        .ADMINISTRATOR:
+                    break;
+                case UserAuthority
+                        .PURCHASER:
+                    Cache.updateOrdersCache();
+                    bundle.putBoolean("TYPE", true);
+                    Navigation.findNavController(requireView()).navigate(R.id.action_nav_goods_to_nav_order_single, bundle);
+                    break;
+                case UserAuthority
+                        .SHIPMENT:
+                    Cache.updateShipmentsCache();
+                    bundle.putBoolean("TYPE", false);
+                    Navigation.findNavController(requireView()).navigate(R.id.action_nav_goods_to_nav_order_single, bundle);
+                    break;
+                case UserAuthority
+                        .CHECKER:
+                    break;
+                default:
+                    Toast.makeText(WmsLiteApplication.context, "账号权限异常", Toast.LENGTH_SHORT).show();
+                    break;
+            }
+        });
     }
 
     private void initView() {
@@ -84,5 +111,6 @@ public class GoodsFragment extends Fragment {
         popularRecyclerView = requireView().findViewById(R.id.goods_rv_popular);
         swipeRefreshLayout = requireView().findViewById(R.id.goods_swipe_refresh);
         searchView = requireView().findViewById(R.id.goods_search);
+        menu = requireView().findViewById(R.id.fab_menu);
     }
 }

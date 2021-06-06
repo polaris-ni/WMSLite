@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import com.topolaris.wmslite.model.base.BaseEntity;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -126,5 +128,18 @@ public class Goods extends BaseEntity implements Parcelable {
 
     public void setManufacturer(String manufacturer) {
         this.manufacturer = manufacturer;
+    }
+
+    @NotNull
+    @Override
+    public String toString() {
+        return "Goods{" +
+                "index=" + index +
+                ", name='" + name + '\'' +
+                ", location='" + location + '\'' +
+                ", inventory=" + inventory +
+                ", manufacturer='" + manufacturer + '\'' +
+                ", sold=" + sold +
+                '}';
     }
 }

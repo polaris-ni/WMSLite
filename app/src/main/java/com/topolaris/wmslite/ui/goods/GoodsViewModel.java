@@ -4,13 +4,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.topolaris.wmslite.model.event.MessageEvent;
-import com.topolaris.wmslite.model.event.MessageType;
 import com.topolaris.wmslite.model.goods.Goods;
 import com.topolaris.wmslite.repository.network.database.DatabaseUtil;
 import com.topolaris.wmslite.utils.ThreadPool;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -39,18 +35,14 @@ public class GoodsViewModel extends ViewModel {
     }
 
     protected void update() {
-
         ThreadPool.executor.execute(() -> {
             String goodsQuerySql = "select * from goodsinfo";
-            ArrayList<Goods> results = DatabaseUtil.executeSqlWithResult(goodsQuerySql, Goods.class);
-            goods.postValue(results);
-            EventBus.getDefault().postSticky(new MessageEvent.Builder(MessageType.GOODS_DATA_UPDATED));
+            goods.postValue(DatabaseUtil.executeSqlWithResult(goodsQuerySql, Goods.class));
         });
         // TODO: 2021/5/25 重写查询语句
         ThreadPool.executor.execute(() -> {
             String goodsQuerySql = "select * from goodsinfo";
-            ArrayList<Goods> results = DatabaseUtil.executeSqlWithResult(goodsQuerySql, Goods.class);
-            popular.postValue(results);
+            popular.postValue(DatabaseUtil.executeSqlWithResult(goodsQuerySql, Goods.class));
         });
     }
 }

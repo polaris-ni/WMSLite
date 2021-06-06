@@ -19,19 +19,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/mobile_navigation" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:contentDescription="@string/fab_content"
-        android:src="@drawable/ic_fab_menu"
-        android:backgroundTint="@color/purple_200"
-        android:clickable="true"
-        app:elevation="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/fragmentContainerView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:rippleColor="@color/gray_light" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
