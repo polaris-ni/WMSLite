@@ -6,18 +6,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.topolaris.wmslite.R;
-import com.topolaris.wmslite.model.event.MessageEvent;
-import com.topolaris.wmslite.model.event.MessageType;
 import com.topolaris.wmslite.model.goods.Goods;
 
-import org.greenrobot.eventbus.EventBus;
-
+/**
+ * @author Liangyong Ni
+ * description 显示商品详细信息
+ * @date 2021/5/19 14:32
+ */
 public class DetailsFragment extends Fragment {
 
     private static final String TAG = "DetailsFragment";
@@ -58,7 +60,7 @@ public class DetailsFragment extends Fragment {
                 // TODO: 2021/6/1
             });
         } else {
-            EventBus.getDefault().post(new MessageEvent.Builder(MessageType.MAIN_TOAST_MAKER).setMessage("Something Wrong!"));
+            Toast.makeText(requireContext(), "Something Wrong!", Toast.LENGTH_SHORT).show();
             Navigation.findNavController(requireView()).popBackStack();
         }
     }

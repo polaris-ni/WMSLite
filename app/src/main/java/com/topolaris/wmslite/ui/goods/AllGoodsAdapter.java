@@ -19,8 +19,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 /**
- * @author toPolaris
- * description TODO
+ * @author Liangyong Ni
+ * description 所有商品RecyclerView的适配器
  * @date 2021/5/22 17:43
  */
 public class AllGoodsAdapter extends RecyclerView.Adapter<AllGoodsAdapter.MyViewHolder> {

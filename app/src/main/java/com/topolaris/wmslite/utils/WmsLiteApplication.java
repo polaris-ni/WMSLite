@@ -7,7 +7,7 @@ import android.content.Context;
 import com.topolaris.wmslite.model.user.User;
 
 /**
- * @author toPolaris
+ * @author Liangyong Ni
  * description 自定义的Application类
  * @date 2021/5/19 14:41
  */

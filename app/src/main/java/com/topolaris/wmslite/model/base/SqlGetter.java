@@ -1,7 +1,7 @@
 package com.topolaris.wmslite.model.base;
 
 /**
- * @author toPolaris
+ * @author Liangyong Ni
  * description 实现此接口的类需要提供Sql语句的获取方法
  * @date 2021/5/19 14:10
  */

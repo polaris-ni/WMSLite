@@ -1,7 +1,5 @@
 package com.topolaris.wmslite.ui.order.single;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -14,12 +12,13 @@ import com.topolaris.wmslite.utils.ThreadPool;
 import java.util.ArrayList;
 
 /**
- * @author toPolaris
+ * @author Liangyong Ni
  * description OrderPage的ViewModel
  * @date 2021/6/2 18:47
  */
 public class OrderPageViewModel extends ViewModel {
-    private static final String TAG = "OrderPageViewModel";
+//    private static final String TAG = "OrderPageViewModel";
+
     private final MutableLiveData<ArrayList<Order>> orders;
     private boolean type;
 
@@ -35,8 +34,7 @@ public class OrderPageViewModel extends ViewModel {
 
     public void refresh() {
         String sql = type ? "select * from purchase;" : "select * from shipment;";
-        Log.e(TAG, "refresh: " + sql);
-        ThreadPool.executor.execute(() -> orders.postValue(DatabaseUtil.executeSqlWithResult(sql, Order.class)));
+        ThreadPool.EXECUTOR.execute(() -> orders.postValue(DatabaseUtil.executeSqlWithResult(sql, Order.class)));
     }
 
     public void setType(boolean type) {

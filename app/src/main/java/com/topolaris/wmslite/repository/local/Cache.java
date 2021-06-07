@@ -8,20 +8,19 @@ import com.topolaris.wmslite.utils.ThreadPool;
 import java.util.ArrayList;
 
 /**
- * @author toPolaris
+ * @author Liangyong Ni
  * description 数据缓存类
  * @date 2021/5/19 14:43
  */
 public class Cache {
-    private static final String TAG = "Cache";
+//    private static final String TAG = "Cache";
+
     private static ArrayList<Goods> goodsCache = new ArrayList<>();
     private static ArrayList<Order> ordersCache = new ArrayList<>();
     private static ArrayList<Order> shipmentsCache = new ArrayList<>();
 
     public static Goods searchGoodsById(long id) {
-//        Log.e(TAG, "searchGoodsById: " + id);
         for (Goods goods : goodsCache) {
-//            Log.e(TAG, "searchGoodsById: " + goods);
             if (goods.getIndex() == id) {
                 return goods;
             }
@@ -54,21 +53,26 @@ public class Cache {
     }
 
     public static void updateGoodsCache() {
-        ThreadPool.executor.execute(() -> {
+        ThreadPool.EXECUTOR.execute(() -> {
             String sql = "select * from goodsinfo;";
             goodsCache = DatabaseUtil.executeSqlWithResult(sql, Goods.class);
         });
     }
 
+    public static void clearOrderAndShipmentCache(){
+        ordersCache.clear();
+        shipmentsCache.clear();
+    }
+
     public static void updateOrdersCache() {
-        ThreadPool.executor.execute(() -> {
+        ThreadPool.EXECUTOR.execute(() -> {
             String sql = "select * from purchase;";
             ordersCache = DatabaseUtil.executeSqlWithResult(sql, Order.class);
         });
     }
 
     public static void updateShipmentsCache() {
-        ThreadPool.executor.execute(() -> {
+        ThreadPool.EXECUTOR.execute(() -> {
             String sql = "select * from shipment;";
             shipmentsCache = DatabaseUtil.executeSqlWithResult(sql, Order.class);
         });

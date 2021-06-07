@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Objects;
 
 /**
- * @author toPolaris
+ * @author Liangyong Ni
  * description 进货单实体类
  * @date 2021/6/2 14:09
  */

@@ -1,5 +1,6 @@
 package com.topolaris.wmslite.ui.goods;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,15 +17,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.topolaris.wmslite.MainActivity;
 import com.topolaris.wmslite.R;
 import com.topolaris.wmslite.model.user.UserAuthority;
 import com.topolaris.wmslite.repository.local.Cache;
+import com.topolaris.wmslite.ui.login.LoginActivity;
 import com.topolaris.wmslite.utils.Test;
 import com.topolaris.wmslite.utils.WmsLiteApplication;
 
 /**
- * @author toPolaris
+ * @author Liangyong Ni
+ * description 商品显示界面
+ * @date 2021/5/19 15:32
  */
 public class GoodsFragment extends Fragment {
     private static final String TAG = "GoodsFragment";
@@ -33,12 +39,12 @@ public class GoodsFragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private SearchView searchView;
     private FloatingActionButton menu;
+    private MaterialCardView logout, accountManager;
     // TODO: 2021/6/2 搜索逻辑
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-
         return inflater.inflate(R.layout.fragment_goods, container, false);
     }
 
@@ -49,10 +55,17 @@ public class GoodsFragment extends Fragment {
 
         initView();
 
-        if (WmsLiteApplication.getAccount() == null) {
-            Navigation.findNavController(requireView()).navigate(R.id.nav_login);
-        }
+        // 退出登录
+        logout.setOnClickListener(v -> {
+            WmsLiteApplication.setAccount(null);
+            Cache.clearOrderAndShipmentCache();
+            ((MainActivity) requireActivity()).startActivity(new Intent(requireActivity(), LoginActivity.class));
+            requireActivity().finish();
+        });
 
+        accountManager.setOnClickListener(v -> {
+            // TODO: 2021/6/8  账户管理页面
+        });
         allRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
         AllGoodsAdapter allGoodsAdapter = new AllGoodsAdapter(Cache.getGoodsCache(), this);
         allRecyclerView.setAdapter(allGoodsAdapter);
@@ -83,6 +96,10 @@ public class GoodsFragment extends Fragment {
             switch (WmsLiteApplication.getAccount().getAuthority()) {
                 case UserAuthority
                         .ADMINISTRATOR:
+                case UserAuthority
+                        .CHECKER:
+                    Cache.updateAllCache();
+                    Navigation.findNavController(requireView()).navigate(R.id.action_nav_goods_to_nav_all_orders);
                     break;
                 case UserAuthority
                         .PURCHASER:
@@ -95,9 +112,6 @@ public class GoodsFragment extends Fragment {
                     Cache.updateShipmentsCache();
                     bundle.putBoolean("TYPE", false);
                     Navigation.findNavController(requireView()).navigate(R.id.action_nav_goods_to_nav_order_single, bundle);
-                    break;
-                case UserAuthority
-                        .CHECKER:
                     break;
                 default:
                     Toast.makeText(WmsLiteApplication.context, "账号权限异常", Toast.LENGTH_SHORT).show();
@@ -112,5 +126,10 @@ public class GoodsFragment extends Fragment {
         swipeRefreshLayout = requireView().findViewById(R.id.goods_swipe_refresh);
         searchView = requireView().findViewById(R.id.goods_search);
         menu = requireView().findViewById(R.id.fab_menu);
+        logout = requireView().findViewById(R.id.goods_mcv_logout);
+        accountManager = requireView().findViewById(R.id.goods_mcv_account);
+        if (WmsLiteApplication.getAccount().getAuthority() != UserAuthority.ADMINISTRATOR) {
+            accountManager.setVisibility(View.GONE);
+        }
     }
 }

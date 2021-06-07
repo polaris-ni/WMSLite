@@ -12,7 +12,9 @@ import java.util.ArrayList;
 
 
 /**
- * @author Protein
+ * @author Liangyong Ni
+ * description 商品显示配套ViewModel
+ * @date 2021/5/19 15:32
  */
 public class GoodsViewModel extends ViewModel {
     private static final String TAG = "GoodsViewModel";
@@ -35,12 +37,12 @@ public class GoodsViewModel extends ViewModel {
     }
 
     protected void update() {
-        ThreadPool.executor.execute(() -> {
+        ThreadPool.EXECUTOR.execute(() -> {
             String goodsQuerySql = "select * from goodsinfo";
             goods.postValue(DatabaseUtil.executeSqlWithResult(goodsQuerySql, Goods.class));
         });
         // TODO: 2021/5/25 重写查询语句
-        ThreadPool.executor.execute(() -> {
+        ThreadPool.EXECUTOR.execute(() -> {
             String goodsQuerySql = "select * from goodsinfo";
             popular.postValue(DatabaseUtil.executeSqlWithResult(goodsQuerySql, Goods.class));
         });

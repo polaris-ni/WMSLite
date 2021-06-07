@@ -11,12 +11,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * @author toPolaris
+ * @author Liangyong Ni
  * description 数据库操作工具类
  * @date 2021/5/19 14:32
  */
 public class DatabaseUtil {
-    private static final String TAG = "DatabaseUtil";
+//    private static final String TAG = "DatabaseUtil";
+
     private static Connection connection = MySQLConnector.getConnection();
 
     /**

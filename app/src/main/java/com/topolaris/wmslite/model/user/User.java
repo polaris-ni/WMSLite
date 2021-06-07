@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Objects;
 
 /**
- * @author toPolaris
+ * @author Liangyong Ni
  * description 用户实体类
  * @date 2021/5/19 13:58
  */
@@ -34,10 +34,6 @@ public class User extends BaseEntity {
      * 用户所属等级
      */
     private int authority = UserAuthority.COMMON;
-    /**
-     * 账号是否已经在其他地方登录
-     */
-    private boolean online = false;
 
     public User() {
     }
@@ -69,7 +65,6 @@ public class User extends BaseEntity {
                 ", password='" + password + '\'' +
                 ", uid='" + uid + '\'' +
                 ", authority=" + authority +
-                ", isOnline=" + online +
                 '}';
     }
 
@@ -93,12 +88,11 @@ public class User extends BaseEntity {
         password = map.getOrDefault("uPassword", "");
         uid = map.getOrDefault("uid", "");
         authority = Integer.parseInt(Objects.requireNonNull(map.getOrDefault("authority", "2")));
-        online = Integer.parseInt(Objects.requireNonNull(map.getOrDefault("online", "0"))) == 1;
     }
 
     @Override
     public String getSql() {
-        return "(\"" + name + "\", \"" + password + "\", \"" + uid + "\", " + authority + ", " + (online ? 1 : 0) + ")";
+        return "(\"" + name + "\", \"" + password + "\", \"" + uid + "\", " + authority + ")";
     }
 
     public String getName() {
@@ -123,14 +117,6 @@ public class User extends BaseEntity {
 
     public void setUid(String uid) {
         this.uid = uid;
-    }
-
-    public boolean isOnline() {
-        return online;
-    }
-
-    public void setOnline(boolean online) {
-        this.online = online;
     }
 
     public String getAuthorityString() {

@@ -3,7 +3,7 @@ package com.topolaris.wmslite.model.base;
 import java.util.HashMap;
 
 /**
- * @author toPolaris
+ * @author Liangyong Ni
  * description 实体类基类，所有实体类需要继承此类
  * @date 2021/5/19 15:38
  */

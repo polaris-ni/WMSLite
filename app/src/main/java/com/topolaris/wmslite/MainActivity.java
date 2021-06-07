@@ -3,41 +3,27 @@ package com.topolaris.wmslite;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.Navigation;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.topolaris.wmslite.databinding.ActivityMainBinding;
-import com.topolaris.wmslite.model.event.MessageEvent;
-import com.topolaris.wmslite.model.event.MessageType;
-import com.topolaris.wmslite.model.user.User;
-import com.topolaris.wmslite.model.user.UserAuthority;
 import com.topolaris.wmslite.repository.local.Cache;
-import com.topolaris.wmslite.repository.network.database.DatabaseUtil;
-import com.topolaris.wmslite.utils.ThreadPool;
-import com.topolaris.wmslite.utils.WmsLiteApplication;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 /**
- * @author toPolaris
+ * @author Liangyong Ni
+ * description 主界面
+ * @date 2021/5/19 14:41
  */
 public class MainActivity extends AppCompatActivity {
+//    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EventBus.getDefault().register(this);
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         getWindow().setStatusBarColor(Color.GRAY);
@@ -46,23 +32,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
-        // 状态设置为下线
-        User account = WmsLiteApplication.getAccount();
-        if (account != null) {
-            String sql = "update wmsusers set online = 0 where uName = \"" + account.getName()
-                    + "\" and uPassword = \"" + account.getPassword() + "\";";
-            ThreadPool.executor.execute(() -> DatabaseUtil.executeSqlWithoutResult(sql));
-        }
+    protected void onStart() {
+        super.onStart();
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void mainMessageHandler(MessageEvent event) {
-        if (event.getMessageType() == MessageType.MAIN_TOAST_MAKER) {
-            Toast.makeText(WmsLiteApplication.context, event.getMessage(), Toast.LENGTH_SHORT).show();
-        }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     @Override

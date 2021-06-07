@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 /**
- * @author toPolaris
+ * @author Liangyong Ni
  * description 用来连接远程数据库
  * @date 2021/5/19 14:32
  */

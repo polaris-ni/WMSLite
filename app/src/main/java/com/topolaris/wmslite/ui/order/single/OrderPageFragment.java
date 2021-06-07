@@ -1,7 +1,6 @@
 package com.topolaris.wmslite.ui.order.single;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,23 +18,33 @@ import com.topolaris.wmslite.R;
 import com.topolaris.wmslite.repository.local.Cache;
 
 /**
- * @author Protein
+ * @author Liangyong Ni
+ * description 订单界面
+ * @date 2021/6/2 17:12
  */
 public class OrderPageFragment extends Fragment {
-    private static final String TAG = "OrderPageFragment";
+//    private static final String TAG = "OrderPageFragment";
 
     private OrderPageViewModel mViewModel;
     private boolean type;
+    private boolean isAll;
     private SearchView search;
     private RecyclerView orderRecyclerView;
     private SwipeRefreshLayout refresh;
+
+    public OrderPageFragment(boolean type, boolean isAll) {
+        this.type = type;
+        this.isAll = isAll;
+    }
+
+    public OrderPageFragment() {
+    }
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(OrderPageViewModel.class);
-
         if (getArguments() != null) {
             type = getArguments().getBoolean("TYPE");
         }
@@ -54,9 +63,10 @@ public class OrderPageFragment extends Fragment {
         initView();
 
         orderRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
-        Log.e(TAG, "onActivityCreated: " + Cache.getOrdersCache());
         OrderPageAdapter orderPageAdapter = new OrderPageAdapter(this, Cache.getSelectedOrdersCache(type), type);
         orderRecyclerView.setAdapter(orderPageAdapter);
+
+        mViewModel.refresh();
 
         mViewModel.getOrders().observe(getViewLifecycleOwner(), orders -> {
             orderPageAdapter.setOrders(orders);
@@ -85,13 +95,18 @@ public class OrderPageFragment extends Fragment {
 
     private void initView() {
         TextView title = requireView().findViewById(R.id.order_title);
-        if (type) {
-            title.setText(getString(R.string.order_title_purchase));
+        if (isAll) {
+            title.setVisibility(View.GONE);
         } else {
-            title.setText(getString(R.string.order_title_shipment));
+            if (type) {
+                title.setText(getString(R.string.order_title_purchase));
+            } else {
+                title.setText(getString(R.string.order_title_shipment));
+            }
         }
         search = requireView().findViewById(R.id.order_search);
         orderRecyclerView = requireView().findViewById(R.id.order_rv);
         refresh = requireView().findViewById(R.id.order_swipe_refresh);
+
     }
 }

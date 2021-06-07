@@ -1,7 +1,7 @@
 package com.topolaris.wmslite.model.user;
 
 /**
- * @author toPolaris
+ * @author Liangyong Ni
  * description 用户权限声明
  * @date 2021/5/19 13:58
  */

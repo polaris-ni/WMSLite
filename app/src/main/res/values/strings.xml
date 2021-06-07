@@ -1,41 +1,26 @@
 <resources>
     <string name="app_name">WMS Lite</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
 
     <string name="menu_goods">货物列表</string>
-    <string name="menu_purchase">进货单</string>
-    <string name="menu_shipment">出货单</string>
 
     <string name="login_welcome">欢迎使用仓库管理系统\n请先登录账号</string>
     <string name="login_author">Powered By toPolaris Ni</string>
     <string name="login_login">登录</string>
-    <string name="login_sign_up">注册</string>
     <string name="login_prompt_username">请输入用户名</string>
     <string name="login_prompt_password">请输入密码</string>
     <string name="login_rem_pw">记住密码</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="goods_info_info">Goods Information</string>
     <string name="goods_title_1">Popular Goods</string>
     <string name="goods_title_2">Goods List</string>
-    <string name="goods_item_image">Goods Image</string>
     <string name="goods_search_hint">请输入要搜索的商品</string>
     <string name="fab_content">菜单</string>
     <string name="login_forgot">忘记密码</string>
-    <string name="details_goods_id">Goods Id</string>
-    <string name="details_goods_location">Stored in</string>
-    <string name="details_goods_manufacturer">Manufacturer</string>
-    <string name="details_goods_inventory">Inventory</string>
-    <string name="details_goods_sold">Sold</string>
     <string name="details_purchase">采购</string>
     <string name="details_shipment">销售</string>
     <string name="order_title_purchase">Purchase Orders</string>
     <string name="order_title_shipment">Shipment Orders</string>
     <string name="order_search_hint">请输入要搜索的订单</string>
     <string name="order_status">订单状态</string>
+    <string name="goods_log_out">退出登录</string>
 </resources>

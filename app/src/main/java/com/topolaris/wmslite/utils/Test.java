@@ -5,8 +5,8 @@ import com.topolaris.wmslite.model.goods.Goods;
 import java.util.ArrayList;
 
 /**
- * @author toPolaris
- * description TODO
+ * @author Liangyong Ni
+ * description 测试用数据
  * @date 2021/5/22 18:11
  */
 public class Test {

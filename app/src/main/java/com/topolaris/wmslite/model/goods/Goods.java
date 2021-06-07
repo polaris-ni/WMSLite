@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Objects;
 
 /**
- * @author toPolaris
+ * @author Liangyong Ni
  * description 商品类
  * @date 2021/5/22 17:48
  */

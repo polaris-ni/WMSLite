@@ -1,7 +1,5 @@
 package com.topolaris.wmslite.ui.order.single;
 
-import android.annotation.SuppressLint;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,12 +22,13 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 /**
- * @author toPolaris
+ * @author Liangyong Ni
  * description 订单界面RecyclerView的适配器
  * @date 2021/6/2 17:12
  */
 public class OrderPageAdapter extends RecyclerView.Adapter<OrderPageAdapter.OrderPageAdapterViewHolder> {
-    private static final String TAG = "OrderPageAdapter";
+//    private static final String TAG = "OrderPageAdapter";
+
     private final Fragment fragment;
     /**
      * type表示当前显示内容类型：0是出货单，1是进货单
@@ -53,7 +52,6 @@ public class OrderPageAdapter extends RecyclerView.Adapter<OrderPageAdapter.Orde
     @Override
     public void onBindViewHolder(@NonNull @NotNull OrderPageAdapterViewHolder holder, int position) {
         Order order = orders.get(position);
-        Log.e(TAG, "onBindViewHolder: " + order.toString());
         Goods goods = Cache.searchGoodsById(order.getGoodsId());
         if (goods == null) {
             return;
@@ -66,10 +64,10 @@ public class OrderPageAdapter extends RecyclerView.Adapter<OrderPageAdapter.Orde
             // 订单已经被审核员处理
             if (order.isRevoked()) {
                 // 订单被审核员撤销——撤销状态
-                holder.goodsStatusImage.setImageDrawable(ContextCompat.getDrawable(fragment.requireContext(),R.drawable.ic_order_status_canceled));
+                holder.goodsStatusImage.setImageDrawable(ContextCompat.getDrawable(fragment.requireContext(), R.drawable.ic_order_status_canceled));
             } else {
                 // 订单被审核员确认——完成状态
-                holder.goodsStatusImage.setImageDrawable(ContextCompat.getDrawable(fragment.requireContext(),R.drawable.ic_order_status_ok));
+                holder.goodsStatusImage.setImageDrawable(ContextCompat.getDrawable(fragment.requireContext(), R.drawable.ic_order_status_ok));
             }
         } else {
             // 订单未被审核员处理
@@ -77,14 +75,14 @@ public class OrderPageAdapter extends RecyclerView.Adapter<OrderPageAdapter.Orde
                 // 出货单
                 if (order.getNumber() > goods.getInventory()) {
                     // 出货数量大于库存——缺货状态
-                    holder.goodsStatusImage.setImageDrawable(ContextCompat.getDrawable(fragment.requireContext(),R.drawable.ic_order_status_error));
+                    holder.goodsStatusImage.setImageDrawable(ContextCompat.getDrawable(fragment.requireContext(), R.drawable.ic_order_status_error));
                 } else {
                     // 出货数量不大于库存——等待状态
-                    holder.goodsStatusImage.setImageDrawable(ContextCompat.getDrawable(fragment.requireContext(),R.drawable.ic_order_status_waiting));
+                    holder.goodsStatusImage.setImageDrawable(ContextCompat.getDrawable(fragment.requireContext(), R.drawable.ic_order_status_waiting));
                 }
             } else {
                 // 出货单——等待状态
-                holder.goodsStatusImage.setImageDrawable(ContextCompat.getDrawable(fragment.requireContext(),R.drawable.ic_order_status_waiting));
+                holder.goodsStatusImage.setImageDrawable(ContextCompat.getDrawable(fragment.requireContext(), R.drawable.ic_order_status_waiting));
             }
         }
         holder.materialCardView.setOnClickListener(v -> {
@@ -103,9 +101,9 @@ public class OrderPageAdapter extends RecyclerView.Adapter<OrderPageAdapter.Orde
     }
 
     static class OrderPageAdapterViewHolder extends RecyclerView.ViewHolder {
-        private TextView name, goodsId, number, inventory;
-        private ImageView goodsStatusImage;
-        private MaterialCardView materialCardView;
+        private final TextView name, goodsId, number, inventory;
+        private final ImageView goodsStatusImage;
+        private final MaterialCardView materialCardView;
 
         public OrderPageAdapterViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);

@@ -19,13 +19,13 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 /**
- * @author toPolaris
- * description 适配器
+ * @author Liangyong Ni
+ * description 受欢迎商品RecyclerView适配器
  * @date 2021/5/25 20:00
  */
 public class PopularGoodsAdapter extends RecyclerView.Adapter<PopularGoodsAdapter.PopularAdapterViewHolder> {
     private ArrayList<Goods> goods;
-    private GoodsFragment fragment;
+    private final GoodsFragment fragment;
 
     public PopularGoodsAdapter(ArrayList<Goods> goods, GoodsFragment fragment) {
         this.goods = goods;
