@@ -11,7 +11,6 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.topolaris.wmslite.databinding.ActivityMainBinding;
-import com.topolaris.wmslite.repository.local.Cache;
 
 /**
  * @author Liangyong Ni
@@ -27,8 +26,6 @@ public class MainActivity extends AppCompatActivity {
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         getWindow().setStatusBarColor(Color.GRAY);
-        // 刷新Cache中的商品缓存
-        Cache.updateGoodsCache();
     }
 
     @Override

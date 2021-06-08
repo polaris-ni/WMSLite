@@ -24,12 +24,11 @@ import java.util.ArrayList;
  * @date 2021/5/25 20:00
  */
 public class PopularGoodsAdapter extends RecyclerView.Adapter<PopularGoodsAdapter.PopularAdapterViewHolder> {
+    private final View fromView;
     private ArrayList<Goods> goods;
-    private final GoodsFragment fragment;
 
-    public PopularGoodsAdapter(ArrayList<Goods> goods, GoodsFragment fragment) {
-        this.goods = goods;
-        this.fragment = fragment;
+    public PopularGoodsAdapter(View fromView) {
+        this.fromView = fromView;
     }
 
     public void setGoods(ArrayList<Goods> goods) {
@@ -55,7 +54,7 @@ public class PopularGoodsAdapter extends RecyclerView.Adapter<PopularGoodsAdapte
         holder.materialCardView.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putParcelable("GOODS", g);
-            Navigation.findNavController(fragment.requireView()).navigate(R.id.action_nav_goods_to_detailsFragment, bundle);
+            Navigation.findNavController(fromView).navigate(R.id.action_nav_goods_to_nav_details, bundle);
         });
     }
 
@@ -65,10 +64,7 @@ public class PopularGoodsAdapter extends RecyclerView.Adapter<PopularGoodsAdapte
     }
 
     static final class PopularAdapterViewHolder extends RecyclerView.ViewHolder {
-        private final TextView name;
-        private final TextView inventory;
-        private final TextView sold;
-        private final TextView location;
+        private final TextView name, inventory, sold, location;
         private final MaterialCardView materialCardView;
 
         public PopularAdapterViewHolder(@NonNull @NotNull View itemView) {

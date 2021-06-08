@@ -24,14 +24,13 @@ import java.util.ArrayList;
  * @date 2021/5/22 17:43
  */
 public class AllGoodsAdapter extends RecyclerView.Adapter<AllGoodsAdapter.MyViewHolder> {
-    private static final String TAG = "GoodsAdapter";
-    private final GoodsFragment fragment;
+    private final View fromView;
     private ArrayList<Goods> goods;
 
-    public AllGoodsAdapter(ArrayList<Goods> goods, GoodsFragment fragment) {
-        this.goods = goods;
-        this.fragment = fragment;
+    public AllGoodsAdapter(View fromView) {
+        this.fromView = fromView;
     }
+
 
     public void setGoods(ArrayList<Goods> goods) {
         this.goods = goods;
@@ -56,7 +55,8 @@ public class AllGoodsAdapter extends RecyclerView.Adapter<AllGoodsAdapter.MyView
             g.setSold(0);
             Bundle bundle = new Bundle();
             bundle.putParcelable("GOODS", g);
-            Navigation.findNavController(fragment.requireView()).navigate(R.id.action_nav_goods_to_detailsFragment, bundle);
+
+            Navigation.findNavController(fromView).navigate(R.id.action_nav_goods_to_nav_details, bundle);
         });
     }
 
@@ -68,7 +68,6 @@ public class AllGoodsAdapter extends RecyclerView.Adapter<AllGoodsAdapter.MyView
     static class MyViewHolder extends RecyclerView.ViewHolder {
         private final MaterialCardView materialCardView;
         private final TextView index, name, inventory, manufacturer;
-
 
         public MyViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);

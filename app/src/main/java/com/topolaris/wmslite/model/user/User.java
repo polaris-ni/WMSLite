@@ -43,12 +43,6 @@ public class User extends BaseEntity {
         this.password = password;
     }
 
-    public User(String name, String password, String uid) {
-        this.name = name;
-        this.password = password;
-        this.uid = uid;
-    }
-
     public int getAuthority() {
         return authority;
     }
@@ -122,15 +116,15 @@ public class User extends BaseEntity {
     public String getAuthorityString() {
         switch (authority) {
             case UserAuthority.ADMINISTRATOR:
-                return "管理员，你好！";
+                return "管理员";
             case UserAuthority.PURCHASER:
-                return "采购员，你好！";
+                return "采购员";
             case UserAuthority.SHIPMENT:
-                return "销售员，你好！";
+                return "销售员";
             case UserAuthority.CHECKER:
-                return "审核员，你好！";
+                return "审核员";
             default:
-                return "陌生人，你好！";
+                return "陌生人";
         }
     }
 }

@@ -6,29 +6,28 @@
     android:orientation="vertical"
     tools:context=".ui.order.single.OrderPageFragment">
 
-    <SearchView
-        android:id="@+id/order_search"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/bg_search"
-        android:hint="@string/order_search_hint"
-        android:iconifiedByDefault="false"
-        android:imeOptions="actionSearch"
-        android:queryHint="@string/goods_search_hint"
-        android:textColorHint="@color/gray_light" />
+<!--    <SearchView-->
+<!--        android:id="@+id/order_search"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:layout_marginEnd="16dp"-->
+<!--        android:background="@drawable/bg_search"-->
+<!--        android:iconifiedByDefault="false"-->
+<!--        android:imeOptions="actionSearch"-->
+<!--        android:queryHint="@string/order_search_hint"-->
+<!--        android:textColorHint="@color/gray_light" />-->
 
     <TextView
         android:id="@+id/order_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:layout_marginTop="16dp"
         tools:text="Purchase Orders" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

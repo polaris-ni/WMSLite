@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -28,7 +27,6 @@ public class OrderPageFragment extends Fragment {
     private OrderPageViewModel mViewModel;
     private boolean type;
     private boolean isAll;
-    private SearchView search;
     private RecyclerView orderRecyclerView;
     private SwipeRefreshLayout refresh;
 
@@ -73,19 +71,6 @@ public class OrderPageFragment extends Fragment {
             orderPageAdapter.notifyDataSetChanged();
         });
 
-        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                // TODO: 2021/6/2 搜索逻辑
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-
         refresh.setColorSchemeResources(R.color.design_default_color_primary);
         refresh.setOnRefreshListener(() -> {
             mViewModel.refresh();
@@ -98,15 +83,9 @@ public class OrderPageFragment extends Fragment {
         if (isAll) {
             title.setVisibility(View.GONE);
         } else {
-            if (type) {
-                title.setText(getString(R.string.order_title_purchase));
-            } else {
-                title.setText(getString(R.string.order_title_shipment));
-            }
+            title.setText(getString(type ? R.string.order_title_purchase : R.string.order_title_shipment));
         }
-        search = requireView().findViewById(R.id.order_search);
         orderRecyclerView = requireView().findViewById(R.id.order_rv);
         refresh = requireView().findViewById(R.id.order_swipe_refresh);
-
     }
 }

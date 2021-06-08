@@ -18,7 +18,6 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.topolaris.wmslite.MainActivity;
 import com.topolaris.wmslite.R;
 import com.topolaris.wmslite.model.user.User;
-import com.topolaris.wmslite.model.user.UserAuthority;
 import com.topolaris.wmslite.repository.local.Cache;
 import com.topolaris.wmslite.repository.network.database.DatabaseUtil;
 import com.topolaris.wmslite.utils.ThreadPool;
@@ -92,46 +91,39 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkAccount(String username, String password) {
+        String querySql = "select * from wmsusers where uName = \"" + username + "\";";
         ThreadPool.EXECUTOR.execute(() -> {
-            String querySql = "select * from wmsusers where uName = \"" + username + "\";";
-            ThreadPool.EXECUTOR.execute(() -> {
-                User user = new User(username, password);
-                User currentUser;
-                ArrayList<User> result = DatabaseUtil.executeSqlWithResult(querySql, User.class);
-                if (result == null) {
-                    runOnUiThread(() -> Toast.makeText(WmsLiteApplication.context, "账号列表获取失败", Toast.LENGTH_SHORT).show());
-                    return;
-                } else if (result.isEmpty()) {
-                    // 账户列表为空
-                    runOnUiThread(() -> Toast.makeText(WmsLiteApplication.context, "账户不存在", Toast.LENGTH_SHORT).show());
-                    return;
-                } else {
-                    currentUser = result.get(0);
-                }
-                if (!user.equals(currentUser)) {
-                    // 如果密码或UID与账号不匹配，则弹出提示
-                    runOnUiThread(() -> Toast.makeText(WmsLiteApplication.context, "密码或UID错误", Toast.LENGTH_SHORT).show());
-                    saveNameAndPassword(user, switchMaterial);
-                } else {
-                    // 账号密码正确
-                    // TODO: 2021/6/7 修改数据库登录账号
-                    user = currentUser;
-                    // 根据登录用户权限请求相应数据到本地
-                    if (user.getAuthority() == UserAuthority.CHECKER || user.getAuthority() == UserAuthority.ADMINISTRATOR) {
-                        Cache.updateAllCache();
-                    } else if (user.getAuthority() == UserAuthority.PURCHASER) {
-                        Cache.updateOrdersCache();
-                    } else if (user.getAuthority() == UserAuthority.SHIPMENT) {
-                        Cache.updateShipmentsCache();
-                    }
-                    WmsLiteApplication.setAccount(currentUser);
-                    runOnUiThread(() -> Toast.makeText(WmsLiteApplication.context, currentUser.getAuthorityString(), Toast.LENGTH_SHORT).show());
-                    saveNameAndPassword(user, switchMaterial);
-                    runOnUiThread(() -> waitingDialog.dismiss());
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    finish();
-                }
-            });
+            User user = new User(username, password);
+            User currentUser;
+            ArrayList<User> result = DatabaseUtil.executeSqlWithResult(querySql, User.class);
+            if (result == null) {
+                runOnUiThread(() -> Toast.makeText(WmsLiteApplication.context, "账号列表获取失败", Toast.LENGTH_SHORT).show());
+                return;
+            } else if (result.isEmpty()) {
+                // 账户列表为空
+                runOnUiThread(() -> Toast.makeText(WmsLiteApplication.context, "账户不存在", Toast.LENGTH_SHORT).show());
+                return;
+            } else {
+                currentUser = result.get(0);
+            }
+            if (!user.equals(currentUser)) {
+                // 如果密码或UID与账号不匹配，则弹出提示
+                runOnUiThread(() -> Toast.makeText(WmsLiteApplication.context, "密码或UID错误", Toast.LENGTH_SHORT).show());
+                saveNameAndPassword(user, switchMaterial);
+            } else {
+                // 账号密码正确
+                // TODO: 2021/6/7 修改数据库登录账号
+                user = currentUser;
+                // 根据登录用户权限请求相应数据到本地
+                Cache.setAuthority(user.getAuthority());
+                Cache.updateCacheByAuthority();
+                WmsLiteApplication.setAccount(currentUser);
+                runOnUiThread(() -> Toast.makeText(WmsLiteApplication.context, currentUser.getAuthorityString(), Toast.LENGTH_SHORT).show());
+                saveNameAndPassword(user, switchMaterial);
+                runOnUiThread(() -> waitingDialog.dismiss());
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                finish();
+            }
         });
     }
 

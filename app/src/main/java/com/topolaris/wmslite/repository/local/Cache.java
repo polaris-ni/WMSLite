@@ -2,6 +2,8 @@ package com.topolaris.wmslite.repository.local;
 
 import com.topolaris.wmslite.model.goods.Goods;
 import com.topolaris.wmslite.model.order.Order;
+import com.topolaris.wmslite.model.user.User;
+import com.topolaris.wmslite.model.user.UserAuthority;
 import com.topolaris.wmslite.repository.network.database.DatabaseUtil;
 import com.topolaris.wmslite.utils.ThreadPool;
 
@@ -13,11 +15,34 @@ import java.util.ArrayList;
  * @date 2021/5/19 14:43
  */
 public class Cache {
-//    private static final String TAG = "Cache";
-
     private static ArrayList<Goods> goodsCache = new ArrayList<>();
+    private static ArrayList<Goods> popularGoodsCache = new ArrayList<>();
     private static ArrayList<Order> ordersCache = new ArrayList<>();
     private static ArrayList<Order> shipmentsCache = new ArrayList<>();
+    private static ArrayList<User> usersCache = new ArrayList<>();
+    private static int authority = UserAuthority.COMMON;
+    private static boolean modifiable = true;
+
+    public static ArrayList<User> getUsersCache() {
+        return usersCache;
+    }
+
+    public static ArrayList<Goods> getPopularGoodsCache() {
+        return popularGoodsCache;
+    }
+
+    /**
+     * 设置Cache的权限等级
+     *
+     * @param authority 权限
+     */
+    public static void setAuthority(int authority) {
+        if (modifiable) {
+            Cache.authority = authority;
+            modifiable = false;
+        }
+
+    }
 
     public static Goods searchGoodsById(long id) {
         for (Goods goods : goodsCache) {
@@ -33,7 +58,6 @@ public class Cache {
         return type ? getOrdersCache() : getShipmentsCache();
     }
 
-
     public static ArrayList<Order> getOrdersCache() {
         return ordersCache;
     }
@@ -46,47 +70,48 @@ public class Cache {
         return shipmentsCache;
     }
 
-    public static void updateAllCache() {
+    public static void updateCacheByAuthority() {
         updateGoodsCache();
-        updateOrdersCache();
-        updateShipmentsCache();
+        switch (authority) {
+            case UserAuthority.ADMINISTRATOR:
+                updateUsersCache();
+            case UserAuthority.CHECKER:
+                updateOrdersCache();
+                updateShipmentsCache();
+                break;
+            case UserAuthority.PURCHASER:
+                updateOrdersCache();
+                break;
+            case UserAuthority.SHIPMENT:
+                updateShipmentsCache();
+                break;
+            default:
+                break;
+        }
     }
 
-    public static void updateGoodsCache() {
+    private static void updateGoodsCache() {
         ThreadPool.EXECUTOR.execute(() -> {
-            String sql = "select * from goodsinfo;";
-            goodsCache = DatabaseUtil.executeSqlWithResult(sql, Goods.class);
+            goodsCache = DatabaseUtil.executeSqlWithResult("select * from goodsinfo;", Goods.class);
+            // TODO: 2021/6/8 流行商品刷新
+            popularGoodsCache = DatabaseUtil.executeSqlWithResult("select * from goodsinfo;", Goods.class);
         });
     }
 
-    public static void clearOrderAndShipmentCache(){
+    public static void clearCache() {
         ordersCache.clear();
         shipmentsCache.clear();
     }
 
-    public static void updateOrdersCache() {
-        ThreadPool.EXECUTOR.execute(() -> {
-            String sql = "select * from purchase;";
-            ordersCache = DatabaseUtil.executeSqlWithResult(sql, Order.class);
-        });
+    private static void updateOrdersCache() {
+        ThreadPool.EXECUTOR.execute(() -> ordersCache = DatabaseUtil.executeSqlWithResult("select * from purchase;", Order.class));
     }
 
-    public static void updateShipmentsCache() {
-        ThreadPool.EXECUTOR.execute(() -> {
-            String sql = "select * from shipment;";
-            shipmentsCache = DatabaseUtil.executeSqlWithResult(sql, Order.class);
-        });
+    private static void updateShipmentsCache() {
+        ThreadPool.EXECUTOR.execute(() -> shipmentsCache = DatabaseUtil.executeSqlWithResult("select * from shipment;", Order.class));
     }
-    //    public static ArrayList<User> usersCache;
-//    public static ArrayList<String> usernameCache = new ArrayList<>();
 
-//    public static void updateCache() {
-//        ThreadPool.executor.execute(() -> {
-//            String sql = "select * from wmsusers;";
-//            usersCache = DatabaseUtil.executeSqlWithResult(sql, User.class);
-//            for (User user : usersCache) {
-//                usernameCache.add(user.getName());
-//            }
-//        });
-//    }
+    private static void updateUsersCache() {
+        ThreadPool.EXECUTOR.execute(() -> usersCache = DatabaseUtil.executeSqlWithResult("select * from wmsusers;", User.class));
+    }
 }

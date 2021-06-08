@@ -41,7 +41,7 @@ public class GoodsViewModel extends ViewModel {
             String goodsQuerySql = "select * from goodsinfo";
             goods.postValue(DatabaseUtil.executeSqlWithResult(goodsQuerySql, Goods.class));
         });
-        // TODO: 2021/5/25 重写查询语句
+        // TODO: 2021/5/25 重写查询语句，改为查询流行商品
         ThreadPool.EXECUTOR.execute(() -> {
             String goodsQuerySql = "select * from goodsinfo";
             popular.postValue(DatabaseUtil.executeSqlWithResult(goodsQuerySql, Goods.class));

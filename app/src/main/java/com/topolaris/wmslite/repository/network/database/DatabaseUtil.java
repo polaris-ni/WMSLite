@@ -16,8 +16,6 @@ import java.util.HashMap;
  * @date 2021/5/19 14:32
  */
 public class DatabaseUtil {
-//    private static final String TAG = "DatabaseUtil";
-
     private static Connection connection = MySQLConnector.getConnection();
 
     /**
@@ -74,7 +72,6 @@ public class DatabaseUtil {
                 while (res.next()) {
                     try {
                         E e = eClass.newInstance();
-                        map.put("ClassType", eClass.getSimpleName());
                         for (int i = 1; i <= res.getMetaData().getColumnCount(); i++) {
                             String field = res.getMetaData().getColumnName(i);
                             map.put(field, res.getString(field));

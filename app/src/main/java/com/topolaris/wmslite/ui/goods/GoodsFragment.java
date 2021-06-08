@@ -24,7 +24,6 @@ import com.topolaris.wmslite.R;
 import com.topolaris.wmslite.model.user.UserAuthority;
 import com.topolaris.wmslite.repository.local.Cache;
 import com.topolaris.wmslite.ui.login.LoginActivity;
-import com.topolaris.wmslite.utils.Test;
 import com.topolaris.wmslite.utils.WmsLiteApplication;
 
 /**
@@ -33,7 +32,8 @@ import com.topolaris.wmslite.utils.WmsLiteApplication;
  * @date 2021/5/19 15:32
  */
 public class GoodsFragment extends Fragment {
-    private static final String TAG = "GoodsFragment";
+//    private static final String TAG = "GoodsFragment";
+
     RecyclerView allRecyclerView, popularRecyclerView;
     private GoodsViewModel mViewModel;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -52,28 +52,27 @@ public class GoodsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(GoodsViewModel.class);
-
         initView();
 
         // 退出登录
         logout.setOnClickListener(v -> {
             WmsLiteApplication.setAccount(null);
-            Cache.clearOrderAndShipmentCache();
+            Cache.clearCache();
             ((MainActivity) requireActivity()).startActivity(new Intent(requireActivity(), LoginActivity.class));
             requireActivity().finish();
         });
 
-        accountManager.setOnClickListener(v -> {
-            // TODO: 2021/6/8  账户管理页面
-        });
-        allRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
-        AllGoodsAdapter allGoodsAdapter = new AllGoodsAdapter(Cache.getGoodsCache(), this);
+        allRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        AllGoodsAdapter allGoodsAdapter = new AllGoodsAdapter(requireView());
+        allGoodsAdapter.setGoods(Cache.getGoodsCache());
         allRecyclerView.setAdapter(allGoodsAdapter);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireActivity());
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireContext());
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
         popularRecyclerView.setLayoutManager(linearLayoutManager);
         // TODO: 2021/6/2 注意数据刷新逻辑
-        PopularGoodsAdapter popularGoodsAdapter = new PopularGoodsAdapter(Test.goods, this);
+        PopularGoodsAdapter popularGoodsAdapter = new PopularGoodsAdapter(requireView());
+        popularGoodsAdapter.setGoods(Cache.getPopularGoodsCache());
         popularRecyclerView.setAdapter(popularGoodsAdapter);
 
         mViewModel.getGoods().observe(getViewLifecycleOwner(), goods -> {
@@ -85,37 +84,48 @@ public class GoodsFragment extends Fragment {
             popularGoodsAdapter.notifyDataSetChanged();
         });
 
-        swipeRefreshLayout.setColorSchemeResources(R.color.design_default_color_primary);
         swipeRefreshLayout.setOnRefreshListener(() -> {
             mViewModel.update();
             swipeRefreshLayout.setRefreshing(false);
         });
 
         menu.setOnClickListener(v -> {
+            Cache.updateCacheByAuthority();
             Bundle bundle = new Bundle();
             switch (WmsLiteApplication.getAccount().getAuthority()) {
                 case UserAuthority
                         .ADMINISTRATOR:
                 case UserAuthority
                         .CHECKER:
-                    Cache.updateAllCache();
                     Navigation.findNavController(requireView()).navigate(R.id.action_nav_goods_to_nav_all_orders);
                     break;
                 case UserAuthority
                         .PURCHASER:
-                    Cache.updateOrdersCache();
                     bundle.putBoolean("TYPE", true);
                     Navigation.findNavController(requireView()).navigate(R.id.action_nav_goods_to_nav_order_single, bundle);
                     break;
                 case UserAuthority
                         .SHIPMENT:
-                    Cache.updateShipmentsCache();
                     bundle.putBoolean("TYPE", false);
                     Navigation.findNavController(requireView()).navigate(R.id.action_nav_goods_to_nav_order_single, bundle);
                     break;
                 default:
                     Toast.makeText(WmsLiteApplication.context, "账号权限异常", Toast.LENGTH_SHORT).show();
                     break;
+            }
+        });
+
+        accountManager.setOnClickListener(v -> Navigation.findNavController(requireView()).navigate(R.id.action_nav_goods_to_nav_user_management));
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
             }
         });
     }
