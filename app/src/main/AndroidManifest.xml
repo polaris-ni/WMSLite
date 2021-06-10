@@ -23,7 +23,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:theme="@style/Theme.WMSLite.NoActionBar" />
+            android:theme="@style/Theme.WMSLite" />
     </application>
 
 </manifest>

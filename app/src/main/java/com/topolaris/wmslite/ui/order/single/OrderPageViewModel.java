@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.topolaris.wmslite.model.order.Order;
+import com.topolaris.wmslite.model.order.OrderType;
 import com.topolaris.wmslite.repository.local.Cache;
 import com.topolaris.wmslite.repository.network.database.DatabaseUtil;
 import com.topolaris.wmslite.utils.ThreadPool;
@@ -20,7 +21,7 @@ public class OrderPageViewModel extends ViewModel {
 //    private static final String TAG = "OrderPageViewModel";
 
     private final MutableLiveData<ArrayList<Order>> orders;
-    private boolean type;
+    private OrderType type;
 
     public OrderPageViewModel() {
         super();
@@ -33,11 +34,22 @@ public class OrderPageViewModel extends ViewModel {
     }
 
     public void refresh() {
-        String sql = type ? "select * from purchase;" : "select * from shipment;";
-        ThreadPool.EXECUTOR.execute(() -> orders.postValue(DatabaseUtil.executeSqlWithResult(sql, Order.class)));
+        switch (type) {
+            case PURCHASE:
+                ThreadPool.EXECUTOR.execute(() -> orders.postValue(DatabaseUtil.executeSqlWithResult("select * from purchase", Order.class)));
+                break;
+            case SHIPMENT:
+                ThreadPool.EXECUTOR.execute(() -> orders.postValue(DatabaseUtil.executeSqlWithResult("select * from shipment", Order.class)));
+                break;
+            case SHORTAGE:
+                ThreadPool.EXECUTOR.execute(() -> orders.postValue(DatabaseUtil.executeSqlWithResult("select * from shortage", Order.class)));
+                break;
+            default:
+                break;
+        }
     }
 
-    public void setType(boolean type) {
+    public void setType(OrderType type) {
         this.type = type;
     }
 }

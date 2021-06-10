@@ -1,4 +1,4 @@
-package com.topolaris.wmslite;
+  package com.topolaris.wmslite;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -9,8 +9,15 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.topolaris.wmslite.databinding.ActivityMainBinding;
+
+import java.util.Objects;
 
 /**
  * @author Liangyong Ni
@@ -26,16 +33,18 @@ public class MainActivity extends AppCompatActivity {
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         getWindow().setStatusBarColor(Color.GRAY);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
+        NavController navController = null;
+        if (navHostFragment != null) {
+            navController = navHostFragment.getNavController();
+        }
+        AppBarConfiguration appBarConfiguration;
+        appBarConfiguration = new AppBarConfiguration.Builder(R.id.fragment_goods, R.id.fragment_orders, R.id.fragment_profile).build();
+        assert navController != null;
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        NavigationUI.setupWithNavController(bottomNavigationView, navController);
+        Objects.requireNonNull(getSupportActionBar()).hide();
     }
 
     @Override

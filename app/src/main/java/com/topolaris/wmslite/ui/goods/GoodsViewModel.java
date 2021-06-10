@@ -17,7 +17,6 @@ import java.util.ArrayList;
  * @date 2021/5/19 15:32
  */
 public class GoodsViewModel extends ViewModel {
-    private static final String TAG = "GoodsViewModel";
     private final MutableLiveData<ArrayList<Goods>> goods;
     private final MutableLiveData<ArrayList<Goods>> popular;
 
@@ -37,14 +36,7 @@ public class GoodsViewModel extends ViewModel {
     }
 
     protected void update() {
-        ThreadPool.EXECUTOR.execute(() -> {
-            String goodsQuerySql = "select * from goodsinfo";
-            goods.postValue(DatabaseUtil.executeSqlWithResult(goodsQuerySql, Goods.class));
-        });
-        // TODO: 2021/5/25 重写查询语句，改为查询流行商品
-        ThreadPool.EXECUTOR.execute(() -> {
-            String goodsQuerySql = "select * from goodsinfo";
-            popular.postValue(DatabaseUtil.executeSqlWithResult(goodsQuerySql, Goods.class));
-        });
+        ThreadPool.EXECUTOR.execute(() -> goods.postValue(DatabaseUtil.executeSqlWithResult("select * from goodsinfo", Goods.class)));
+        ThreadPool.EXECUTOR.execute(() -> popular.postValue(DatabaseUtil.executeSqlWithResult("select * from popular_goods", Goods.class)));
     }
 }

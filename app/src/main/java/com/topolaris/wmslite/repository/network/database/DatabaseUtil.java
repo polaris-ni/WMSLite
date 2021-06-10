@@ -16,7 +16,7 @@ import java.util.HashMap;
  * @date 2021/5/19 14:32
  */
 public class DatabaseUtil {
-    private static Connection connection = MySQLConnector.getConnection();
+//    private static final String TAG = "DatabaseUtil";
 
     /**
      * 解析无返回值的Sql语句
@@ -26,12 +26,8 @@ public class DatabaseUtil {
      */
     public static boolean executeSqlWithoutResult(String sqlString) {
         try {
-            if (connection == null) {
-                connection = MySQLConnector.getConnection();
-                if (connection == null) {
-                    return false;
-                }
-            }
+            Connection connection = null;
+            connection = MySqlConnector.getConnection();
             PreparedStatement stmt = connection.prepareStatement(sqlString);
             // 关闭事务自动提交 ,这一行必须加上
             connection.setAutoCommit(false);
@@ -39,6 +35,7 @@ public class DatabaseUtil {
             stmt.executeBatch();
             connection.commit();
             stmt.close();
+            connection.close();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -56,12 +53,7 @@ public class DatabaseUtil {
      */
     public static <E extends BaseEntity> ArrayList<E> executeSqlWithResult(String sqlString, Class<E> eClass) {
         // 数据请求失败返回null，空数据返回空集合
-        if (connection == null) {
-            connection = MySQLConnector.getConnection();
-            if (connection == null) {
-                return null;
-            }
-        }
+        Connection connection = MySqlConnector.getConnection();
         ArrayList<E> result = new ArrayList<>();
         HashMap<String, String> map = new HashMap<>(8);
         try {
@@ -82,8 +74,10 @@ public class DatabaseUtil {
                         illegalAccessException.printStackTrace();
                     }
                 }
-                stmt.close();
+                res.close();
             }
+            stmt.close();
+            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

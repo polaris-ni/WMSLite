@@ -2,6 +2,7 @@ package com.topolaris.wmslite.ui.management;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.card.MaterialCardView;
 import com.topolaris.wmslite.R;
 import com.topolaris.wmslite.model.user.User;
 import com.topolaris.wmslite.model.user.UserAuthority;
@@ -41,6 +42,10 @@ public class UserManagementFragment extends Fragment {
     private RecyclerView recyclerView;
     private AlertDialog registerUser;
 
+    public UserManagementViewModel getViewModel() {
+        return mViewModel;
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -53,7 +58,7 @@ public class UserManagementFragment extends Fragment {
         mViewModel = new ViewModelProvider(this).get(UserManagementViewModel.class);
         initView();
 
-        UserManagementAdapter adapter = new UserManagementAdapter(requireContext());
+        UserManagementAdapter adapter = new UserManagementAdapter(this);
         adapter.setUsers(mViewModel.getUsers().getValue());
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerView.setAdapter(adapter);
@@ -75,7 +80,7 @@ public class UserManagementFragment extends Fragment {
         refresh = requireView().findViewById(R.id.um_swipe_refresh);
         recyclerView = requireView().findViewById(R.id.um_rv);
         if (WmsLiteApplication.getAccount().getAuthority() == UserAuthority.ADMINISTRATOR) {
-            FloatingActionButton addUser = requireView().findViewById(R.id.um_add);
+            MaterialCardView addUser = requireView().findViewById(R.id.um_add);
             addUser.setOnClickListener(v -> {
                 View view = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_account, null, false);
                 User newUser = new User();

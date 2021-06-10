@@ -2,6 +2,7 @@ package com.topolaris.wmslite.repository.local;
 
 import com.topolaris.wmslite.model.goods.Goods;
 import com.topolaris.wmslite.model.order.Order;
+import com.topolaris.wmslite.model.order.OrderType;
 import com.topolaris.wmslite.model.user.User;
 import com.topolaris.wmslite.model.user.UserAuthority;
 import com.topolaris.wmslite.repository.network.database.DatabaseUtil;
@@ -18,10 +19,10 @@ public class Cache {
     private static ArrayList<Goods> goodsCache = new ArrayList<>();
     private static ArrayList<Goods> popularGoodsCache = new ArrayList<>();
     private static ArrayList<Order> ordersCache = new ArrayList<>();
+    private static ArrayList<Order> shortageCache = new ArrayList<>();
     private static ArrayList<Order> shipmentsCache = new ArrayList<>();
     private static ArrayList<User> usersCache = new ArrayList<>();
     private static int authority = UserAuthority.COMMON;
-    private static boolean modifiable = true;
 
     public static ArrayList<User> getUsersCache() {
         return usersCache;
@@ -37,11 +38,7 @@ public class Cache {
      * @param authority 权限
      */
     public static void setAuthority(int authority) {
-        if (modifiable) {
-            Cache.authority = authority;
-            modifiable = false;
-        }
-
+        Cache.authority = authority;
     }
 
     public static Goods searchGoodsById(long id) {
@@ -54,8 +51,21 @@ public class Cache {
         return null;
     }
 
-    public static ArrayList<Order> getSelectedOrdersCache(boolean type) {
-        return type ? getOrdersCache() : getShipmentsCache();
+    public static ArrayList<Order> getSelectedOrdersCache(OrderType type) {
+        switch (type) {
+            case SHIPMENT:
+                return getShipmentsCache();
+            case PURCHASE:
+                return getOrdersCache();
+            case SHORTAGE:
+                return getShortageCache();
+            default:
+                return new ArrayList<>();
+        }
+    }
+
+    private static ArrayList<Order> getShortageCache() {
+        return shortageCache;
     }
 
     public static ArrayList<Order> getOrdersCache() {
@@ -92,23 +102,26 @@ public class Cache {
 
     private static void updateGoodsCache() {
         ThreadPool.EXECUTOR.execute(() -> {
-            goodsCache = DatabaseUtil.executeSqlWithResult("select * from goodsinfo;", Goods.class);
-            // TODO: 2021/6/8 流行商品刷新
-            popularGoodsCache = DatabaseUtil.executeSqlWithResult("select * from goodsinfo;", Goods.class);
+            goodsCache = DatabaseUtil.executeSqlWithResult("select * from goodsinfo", Goods.class);
+            popularGoodsCache = DatabaseUtil.executeSqlWithResult("select * from popular_goods", Goods.class);
         });
     }
 
     public static void clearCache() {
         ordersCache.clear();
         shipmentsCache.clear();
+        shortageCache.clear();
+        usersCache.clear();
     }
 
     private static void updateOrdersCache() {
         ThreadPool.EXECUTOR.execute(() -> ordersCache = DatabaseUtil.executeSqlWithResult("select * from purchase;", Order.class));
+        ThreadPool.EXECUTOR.execute(() -> shortageCache = DatabaseUtil.executeSqlWithResult("select * from shortage;", Order.class));
     }
 
     private static void updateShipmentsCache() {
         ThreadPool.EXECUTOR.execute(() -> shipmentsCache = DatabaseUtil.executeSqlWithResult("select * from shipment;", Order.class));
+        ThreadPool.EXECUTOR.execute(() -> shortageCache = DatabaseUtil.executeSqlWithResult("select * from shortage;", Order.class));
     }
 
     private static void updateUsersCache() {

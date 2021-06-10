@@ -45,8 +45,6 @@ public class PopularGoodsAdapter extends RecyclerView.Adapter<PopularGoodsAdapte
     @Override
     public void onBindViewHolder(@NonNull @NotNull PopularAdapterViewHolder holder, int position) {
         Goods g = this.goods.get(position);
-        // TODO: 2021/6/1
-        g.setSold(0);
         holder.name.setText(g.getName());
         holder.inventory.setText(String.valueOf(g.getInventory()));
         holder.sold.setText(String.valueOf(g.getSold()));

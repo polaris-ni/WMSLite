@@ -11,31 +11,52 @@
     <string name="login_rem_pw">记住密码</string>
     <string name="login_forgot">忘记密码</string>
 
-    <string name="goods_info_info">Goods Information</string>
+    <string name="goods_info_info">Goods\nInformation</string>
     <string name="goods_title_1">Popular Goods</string>
     <string name="goods_title_2">Goods List</string>
     <string name="goods_search_hint">请输入要搜索的商品</string>
-    <string name="goods_log_out">退出登录</string>
+    <string name="goods_add">添加商品</string>
+    <string name="goods_tip">点击修改商品属性</string>
 
     <string name="fab_content">菜单</string>
 
     <string name="details_purchase">采购</string>
     <string name="details_shipment">销售</string>
-    <string name="order_title_purchase">Purchase Orders</string>
-    <string name="order_title_shipment">Shipment Orders</string>
+    <string name="details_save">保存</string>
+    <string name="details_delete">删除</string>
+    <string name="details_shortage">缺货登记</string>
+
+    <string name="order_title_purchase">采购订单</string>
+    <string name="order_title_shipment">销售订单</string>
+    <string name="order_title_shortage">缺货登记</string>
     <string name="order_search_hint">请输入要搜索的订单</string>
     <string name="order_status">订单状态</string>
 
     <string name="um_title">Registered Users</string>
     <string name="um_fab_desc">Add User</string>
-
-    <string name="modifier_title">User Information</string>
-    <string name="modifier_authority">User Authority</string>
+    <string name="um_search_hint">请输入要搜索的用户</string>
 
     <string name="administrator">管理</string>
     <string name="purchase">购买</string>
     <string name="shipment">销售</string>
     <string name="checker">审核</string>
+
     <string name="dialog_ac_uid_title">妥善保管UID，这是找回账户的唯一途径</string>
-    <string name="um_search_hint">请输入要搜索的用户</string>
+    <string name="dialog_ac_uid_title2">"用户UID不可更改"</string>
+
+    <string name="bottom_menu_goods">商品</string>
+    <string name="bottom_menu_order">订单</string>
+    <string name="bottom_menu_profile">我</string>
+
+    <string name="profile_title">个人信息</string>
+    <string name="profile_modify_name">修改名称</string>
+    <string name="profile_modify_pw">修改密码</string>
+    <string name="profile_log_off">注销用户</string>
+    <string name="profile_log_out">退出登录</string>
+    <string name="profile_user_management">用户管理</string>
+
+    <string name="order_detail_title">订单信息</string>
+    <string name="order_detail_ensure">确认</string>
+    <string name="order_detail_revoke">撤销</string>
+    <string name="order_detail_desc_modify">修改</string>
 </resources>

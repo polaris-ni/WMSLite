@@ -62,8 +62,7 @@ public class User extends BaseEntity {
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
+    public boolean match(Object o) {
         if (this == o) {
             return true;
         }

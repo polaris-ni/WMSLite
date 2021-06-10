@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/fragment_goods"
+        android:icon="@drawable/ic_goods_24"
+        android:title="@string/bottom_menu_goods" />
+    <item
+        android:id="@+id/fragment_orders"
+        android:icon="@drawable/ic_order_24"
+        android:title="@string/bottom_menu_order" />
+    <item
+        android:id="@+id/fragment_profile"
+        android:icon="@drawable/ic_account"
+        android:title="@string/bottom_menu_profile" />
+</menu>

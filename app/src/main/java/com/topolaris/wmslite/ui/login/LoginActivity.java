@@ -21,9 +21,11 @@ import com.topolaris.wmslite.model.user.User;
 import com.topolaris.wmslite.repository.local.Cache;
 import com.topolaris.wmslite.repository.network.database.DatabaseUtil;
 import com.topolaris.wmslite.utils.ThreadPool;
+import com.topolaris.wmslite.utils.ToastUtil;
 import com.topolaris.wmslite.utils.WmsLiteApplication;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * @author Liangyong Ni
@@ -44,7 +46,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         initView();
-
         restoreData();
 
         loginButton.setOnClickListener(v -> {
@@ -54,6 +55,7 @@ public class LoginActivity extends AppCompatActivity {
             checkAccount(username, password);
         });
         forgot.setOnClickListener(v -> Toast.makeText(WmsLiteApplication.context, "请使用Uid登录或者向管理员查询密码", Toast.LENGTH_LONG).show());
+        Objects.requireNonNull(getSupportActionBar()).hide();
     }
 
     /**
@@ -97,18 +99,27 @@ public class LoginActivity extends AppCompatActivity {
             User currentUser;
             ArrayList<User> result = DatabaseUtil.executeSqlWithResult(querySql, User.class);
             if (result == null) {
-                runOnUiThread(() -> Toast.makeText(WmsLiteApplication.context, "账号列表获取失败", Toast.LENGTH_SHORT).show());
+                runOnUiThread(() -> {
+                    waitingDialog.dismiss();
+                    ToastUtil.show("账号列表获取失败");
+                });
                 return;
             } else if (result.isEmpty()) {
                 // 账户列表为空
-                runOnUiThread(() -> Toast.makeText(WmsLiteApplication.context, "账户不存在", Toast.LENGTH_SHORT).show());
+                runOnUiThread(() -> {
+                    waitingDialog.dismiss();
+                    ToastUtil.show("账户不存在");
+                });
                 return;
             } else {
                 currentUser = result.get(0);
             }
-            if (!user.equals(currentUser)) {
+            if (!user.match(currentUser)) {
                 // 如果密码或UID与账号不匹配，则弹出提示
-                runOnUiThread(() -> Toast.makeText(WmsLiteApplication.context, "密码或UID错误", Toast.LENGTH_SHORT).show());
+                runOnUiThread(() -> {
+                    waitingDialog.dismiss();
+                    ToastUtil.show("密码或UID错误");
+                });
                 saveNameAndPassword(user, switchMaterial);
             } else {
                 // 账号密码正确

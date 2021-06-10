@@ -2,44 +2,48 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/nav_goods">
+    app:startDestination="@id/fragment_goods">
 
     <fragment
-        android:id="@+id/nav_goods"
+        android:id="@+id/fragment_goods"
         android:name="com.topolaris.wmslite.ui.goods.GoodsFragment"
         android:label="@string/menu_goods"
         tools:layout="@layout/fragment_goods">
         <action
-            android:id="@+id/action_nav_goods_to_nav_order_single"
-            app:destination="@id/nav_order_single"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
-        <action
-            android:id="@+id/action_nav_goods_to_nav_all_orders"
-            app:destination="@id/nav_all_orders"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
-        <action
-            android:id="@+id/action_nav_goods_to_nav_user_management"
-            app:destination="@id/nav_user_management" />
-        <action
             android:id="@+id/action_nav_goods_to_nav_details"
-            app:destination="@id/nav_details" />
+            app:destination="@id/fragment_details" />
     </fragment>
     <fragment
-        android:id="@+id/nav_details"
+        android:id="@+id/fragment_details"
         android:name="com.topolaris.wmslite.ui.details.DetailsFragment"
         tools:layout="@layout/fragment_details" />
     <fragment
-        android:id="@+id/nav_order_single"
-        android:name="com.topolaris.wmslite.ui.order.single.OrderPageFragment"
-        tools:layout="@layout/fragment_order_page" />
-    <fragment
-        android:id="@+id/nav_all_orders"
+        android:id="@+id/fragment_orders"
         android:name="com.topolaris.wmslite.ui.order.both.AllOrdersFragment"
-        tools:layout="@layout/fragment_all_orders" />
+        tools:layout="@layout/fragment_orders" />
     <fragment
-        android:id="@+id/nav_user_management"
+        android:id="@+id/fragment_user_management"
         android:name="com.topolaris.wmslite.ui.management.UserManagementFragment"
         tools:layout="@layout/fragment_user_management" />
+    <fragment
+        android:id="@+id/fragment_profile"
+        android:name="com.topolaris.wmslite.ui.profile.ProfileFragment"
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_fragment_profile_to_fragment_user_management"
+            app:destination="@id/fragment_user_management" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_order"
+        android:name="com.topolaris.wmslite.ui.order.single.OrderPageFragment"
+        android:label="fragment_order_page"
+        tools:layout="@layout/fragment_order_page" >
+        <action
+            android:id="@+id/action_fragment_order_to_fragment_order_detail"
+            app:destination="@id/fragment_order_detail" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_order_detail"
+        android:name="com.topolaris.wmslite.ui.order.modifier.OrderDetailFragment"
+        tools:layout="@layout/fragment_order_detail" />
 </navigation>

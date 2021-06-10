@@ -27,12 +27,12 @@ public class Goods extends BaseEntity implements Parcelable {
             return new Goods[size];
         }
     };
-    private long index;
-    private String name;
-    private String location;
-    private long inventory;
-    private String manufacturer;
-    private int sold;
+    private long index = 0;
+    private String name = "Goods Name";
+    private String location = "Goods Location";
+    private long inventory = 0;
+    private String manufacturer = "Goods Manufacturer";
+    private long sold = 0;
 
     public Goods() {
     }
@@ -60,7 +60,7 @@ public class Goods extends BaseEntity implements Parcelable {
         dest.writeString(location);
         dest.writeLong(inventory);
         dest.writeString(manufacturer);
-        dest.writeInt(sold);
+        dest.writeLong(sold);
     }
 
     @Override
@@ -68,11 +68,11 @@ public class Goods extends BaseEntity implements Parcelable {
         return 0;
     }
 
-    public int getSold() {
+    public long getSold() {
         return sold;
     }
 
-    public void setSold(int sold) {
+    public void setSold(long sold) {
         this.sold = sold;
     }
 
@@ -82,6 +82,7 @@ public class Goods extends BaseEntity implements Parcelable {
         name = map.getOrDefault("name", "");
         location = map.getOrDefault("location", "");
         inventory = Long.parseLong(Objects.requireNonNull(map.getOrDefault("inventory", "0")));
+        sold = Long.parseLong(Objects.requireNonNull(map.getOrDefault("sold", "0")));
         manufacturer = map.getOrDefault("manufacturer", "");
     }
 
@@ -92,10 +93,6 @@ public class Goods extends BaseEntity implements Parcelable {
 
     public long getIndex() {
         return index;
-    }
-
-    public void setIndex(long index) {
-        this.index = index;
     }
 
     public String getName() {
@@ -116,10 +113,6 @@ public class Goods extends BaseEntity implements Parcelable {
 
     public long getInventory() {
         return inventory;
-    }
-
-    public void setInventory(long inventory) {
-        this.inventory = inventory;
     }
 
     public String getManufacturer() {

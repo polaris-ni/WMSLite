@@ -11,7 +11,10 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.topolaris.wmslite.R;
+import com.topolaris.wmslite.model.order.OrderType;
+import com.topolaris.wmslite.model.user.UserAuthority;
 import com.topolaris.wmslite.ui.order.single.OrderPageFragment;
+import com.topolaris.wmslite.utils.WmsLiteApplication;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +35,7 @@ public class AllOrdersFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_all_orders, container, false);
+        return inflater.inflate(R.layout.fragment_orders, container, false);
     }
 
     @Override
@@ -40,10 +43,7 @@ public class AllOrdersFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         initView();
         initData();
-        mTabLayout.setTabMode(TabLayout.MODE_FIXED);
-        mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(0)));
-        mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(1)));
-        mViewPager.setAdapter(new PageAdapter(requireActivity().getSupportFragmentManager(), titles, fragments));
+        mViewPager.setAdapter(new PageAdapter(getChildFragmentManager(), titles, fragments));
         mTabLayout.setupWithViewPager(mViewPager);
     }
 
@@ -53,11 +53,22 @@ public class AllOrdersFragment extends Fragment {
     }
 
     private void initData() {
+        int authority = WmsLiteApplication.getAccount().getAuthority();
         titles = new ArrayList<>();
-        titles.add("Purchase");
-        titles.add("Shipment");
         fragments = new ArrayList<>();
-        fragments.add(new OrderPageFragment(true, true));
-        fragments.add(new OrderPageFragment(false, true));
+        if (authority == UserAuthority.SHIPMENT) {
+            titles.add("销售");
+            fragments.add(new OrderPageFragment(OrderType.SHIPMENT));
+        } else if (authority == UserAuthority.PURCHASER) {
+            titles.add("采购");
+            fragments.add(new OrderPageFragment(OrderType.PURCHASE));
+        } else {
+            titles.add("销售");
+            titles.add("采购");
+            fragments.add(new OrderPageFragment(OrderType.SHIPMENT));
+            fragments.add(new OrderPageFragment(OrderType.PURCHASE));
+        }
+        titles.add("缺货");
+        fragments.add(new OrderPageFragment(OrderType.SHORTAGE));
     }
 }

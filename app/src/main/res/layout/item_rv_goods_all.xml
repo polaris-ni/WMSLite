@@ -5,6 +5,7 @@
     android:id="@+id/item_rv_all_mcv"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    app:cardCornerRadius="8dp"
     android:layout_marginBottom="10dp">
 
     <RelativeLayout
