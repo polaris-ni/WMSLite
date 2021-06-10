@@ -1,4 +1,4 @@
-package com.topolaris.wmslite.ui.order.single;
+package com.topolaris.wmslite.ui.order.page;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel;
 
 import com.topolaris.wmslite.model.order.Order;
 import com.topolaris.wmslite.model.order.OrderType;
-import com.topolaris.wmslite.repository.local.Cache;
 import com.topolaris.wmslite.repository.network.database.DatabaseUtil;
 import com.topolaris.wmslite.utils.ThreadPool;
 
@@ -26,10 +25,10 @@ public class OrderPageViewModel extends ViewModel {
     public OrderPageViewModel() {
         super();
         orders = new MutableLiveData<>();
+        orders.setValue(new ArrayList<>());
     }
 
     public LiveData<ArrayList<Order>> getOrders() {
-        orders.setValue(Cache.getOrdersCache());
         return orders;
     }
 

@@ -19,7 +19,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/item_order_name"
+                android:id="@+id/item_order_tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -34,7 +34,7 @@
                 tools:text="Goods Name" />
 
             <ImageView
-                android:id="@+id/item_order_status"
+                android:id="@+id/item_order_iv_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -42,7 +42,7 @@
                 android:layout_marginEnd="16dp"
                 android:contentDescription="@string/order_status"
                 android:padding="8dp"
-                tools:src="@drawable/ic_order_status_ok" />
+                tools:src="@drawable/ic_order_status_revoked_28" />
         </RelativeLayout>
 
         <LinearLayout
@@ -51,7 +51,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/item_order_id"
+                android:id="@+id/item_order_tv_id"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -68,7 +68,7 @@
                 tools:text="10086" />
 
             <TextView
-                android:id="@+id/item_order_number"
+                android:id="@+id/item_order_tv_number"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -82,7 +82,7 @@
                 tools:text="10086" />
 
             <TextView
-                android:id="@+id/item_order_inventory"
+                android:id="@+id/item_order_tv_inventory"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"

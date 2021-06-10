@@ -11,10 +11,9 @@
     <string name="login_rem_pw">记住密码</string>
     <string name="login_forgot">忘记密码</string>
 
-    <string name="goods_info_info">Goods\nInformation</string>
-    <string name="goods_title_1">Popular Goods</string>
-    <string name="goods_title_2">Goods List</string>
-    <string name="goods_search_hint">请输入要搜索的商品</string>
+    <string name="goods_info_info">商品信息</string>
+    <string name="goods_title_1">最畅销的商品</string>
+    <string name="goods_title_2">商品库</string>
     <string name="goods_add">添加商品</string>
     <string name="goods_tip">点击修改商品属性</string>
 
@@ -29,11 +28,10 @@
     <string name="order_title_purchase">采购订单</string>
     <string name="order_title_shipment">销售订单</string>
     <string name="order_title_shortage">缺货登记</string>
-    <string name="order_search_hint">请输入要搜索的订单</string>
     <string name="order_status">订单状态</string>
 
-    <string name="um_title">Registered Users</string>
-    <string name="um_fab_desc">Add User</string>
+    <string name="um_title">用户列表</string>
+    <string name="um_fab_desc">添加用户</string>
     <string name="um_search_hint">请输入要搜索的用户</string>
 
     <string name="administrator">管理</string>
@@ -59,4 +57,11 @@
     <string name="order_detail_ensure">确认</string>
     <string name="order_detail_revoke">撤销</string>
     <string name="order_detail_desc_modify">修改</string>
+
+    <string name="search_goods">商品单</string>
+    <string name="search_purchase">采购单</string>
+    <string name="search_shipment">销售单</string>
+    <string name="search_shortage">缺货单</string>
+    <string name="search_hint">请输入要搜索订单的商品名称</string>
+    <string name="login_desc">用户登录</string>
 </resources>

@@ -67,10 +67,10 @@ public class PopularGoodsAdapter extends RecyclerView.Adapter<PopularGoodsAdapte
 
         public PopularAdapterViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
-            name = itemView.findViewById(R.id.item_popular_name);
-            inventory = itemView.findViewById(R.id.item_popular_inventory);
-            sold = itemView.findViewById(R.id.item_popular_sold);
-            location = itemView.findViewById(R.id.item_popular_location);
+            name = itemView.findViewById(R.id.item_popular_tv_name);
+            inventory = itemView.findViewById(R.id.item_popular_tv_inventory);
+            sold = itemView.findViewById(R.id.item_popular_tv_sold);
+            location = itemView.findViewById(R.id.item_popular_tv_location);
             materialCardView = itemView.findViewById(R.id.item_rv_popular_mcv);
         }
     }

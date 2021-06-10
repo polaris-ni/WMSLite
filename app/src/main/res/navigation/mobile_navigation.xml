@@ -12,18 +12,21 @@
         <action
             android:id="@+id/action_nav_goods_to_nav_details"
             app:destination="@id/fragment_details" />
+        <action
+            android:id="@+id/action_fragment_goods_to_fragment_search"
+            app:destination="@id/fragment_search" />
     </fragment>
     <fragment
         android:id="@+id/fragment_details"
-        android:name="com.topolaris.wmslite.ui.details.DetailsFragment"
+        android:name="com.topolaris.wmslite.ui.goods.details.DetailsFragment"
         tools:layout="@layout/fragment_details" />
     <fragment
         android:id="@+id/fragment_orders"
-        android:name="com.topolaris.wmslite.ui.order.both.AllOrdersFragment"
+        android:name="com.topolaris.wmslite.ui.order.pages.AllOrdersFragment"
         tools:layout="@layout/fragment_orders" />
     <fragment
         android:id="@+id/fragment_user_management"
-        android:name="com.topolaris.wmslite.ui.management.UserManagementFragment"
+        android:name="com.topolaris.wmslite.ui.profile.management.UserManagementFragment"
         tools:layout="@layout/fragment_user_management" />
     <fragment
         android:id="@+id/fragment_profile"
@@ -35,7 +38,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragment_order"
-        android:name="com.topolaris.wmslite.ui.order.single.OrderPageFragment"
+        android:name="com.topolaris.wmslite.ui.order.page.OrderPageFragment"
         android:label="fragment_order_page"
         tools:layout="@layout/fragment_order_page" >
         <action
@@ -44,6 +47,11 @@
     </fragment>
     <fragment
         android:id="@+id/fragment_order_detail"
-        android:name="com.topolaris.wmslite.ui.order.modifier.OrderDetailFragment"
+        android:name="com.topolaris.wmslite.ui.order.detail.OrderDetailFragment"
         tools:layout="@layout/fragment_order_detail" />
+    <fragment
+        android:id="@+id/fragment_search"
+        android:name="com.topolaris.wmslite.ui.goods.search.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
 </navigation>

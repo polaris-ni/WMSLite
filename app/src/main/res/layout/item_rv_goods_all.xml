@@ -13,7 +13,7 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/item_all_index"
+            android:id="@+id/item_all_tv_index"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -26,29 +26,29 @@
             tools:text="1" />
 
         <TextView
-            android:id="@+id/item_all_name"
+            android:id="@+id/item_all_tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="10dp"
-            android:layout_toEndOf="@id/item_all_index"
+            android:layout_toEndOf="@id/item_all_tv_index"
             android:textSize="18sp"
             android:textStyle="bold"
             tools:text="goods name" />
 
         <TextView
-            android:id="@+id/item_all_manufacturer"
+            android:id="@+id/item_all_tv_manufacturer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/item_all_name"
+            android:layout_below="@id/item_all_tv_name"
             android:layout_margin="8dp"
-            android:layout_toEndOf="@id/item_all_index"
+            android:layout_toEndOf="@id/item_all_tv_index"
             android:textSize="16sp"
             tools:text="Wuhan, Hubei" />
 
         <TextView
-            android:id="@+id/item_all_inventory"
+            android:id="@+id/item_all_tv_inventory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -60,7 +60,5 @@
             app:drawableTopCompat="@drawable/ic_warehouse_24"
             tools:ignore="RelativeOverlap"
             tools:text="1000" />
-
     </RelativeLayout>
-
 </com.google.android.material.card.MaterialCardView>

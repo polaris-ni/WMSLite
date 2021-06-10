@@ -25,7 +25,6 @@ import java.util.Objects;
  * @date 2021/5/19 14:41
  */
 public class MainActivity extends AppCompatActivity {
-//    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

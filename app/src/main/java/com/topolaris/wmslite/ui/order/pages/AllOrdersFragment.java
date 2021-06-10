@@ -1,4 +1,4 @@
-package com.topolaris.wmslite.ui.order.both;
+package com.topolaris.wmslite.ui.order.pages;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,7 +13,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.topolaris.wmslite.R;
 import com.topolaris.wmslite.model.order.OrderType;
 import com.topolaris.wmslite.model.user.UserAuthority;
-import com.topolaris.wmslite.ui.order.single.OrderPageFragment;
+import com.topolaris.wmslite.ui.order.page.OrderPageFragment;
 import com.topolaris.wmslite.utils.WmsLiteApplication;
 
 import java.util.ArrayList;
@@ -48,8 +48,8 @@ public class AllOrdersFragment extends Fragment {
     }
 
     private void initView() {
-        mTabLayout = requireView().findViewById(R.id.both_tab_layout);
-        mViewPager = requireView().findViewById(R.id.both_viewpager);
+        mTabLayout = requireView().findViewById(R.id.orders_tab_layout);
+        mViewPager = requireView().findViewById(R.id.orders_viewpager);
     }
 
     private void initData() {

@@ -1,4 +1,4 @@
-package com.topolaris.wmslite.ui.order.both;
+package com.topolaris.wmslite.ui.order.pages;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,7 +20,7 @@ public class PageAdapter extends FragmentPagerAdapter {
     private final List<Fragment> fragments;
 
     public PageAdapter(@NonNull @NotNull FragmentManager fm, List<String> titles, List<Fragment> fragments) {
-        super(fm);
+        super(fm, FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.titles = titles;
         this.fragments = fragments;
     }

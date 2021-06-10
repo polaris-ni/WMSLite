@@ -1,8 +1,7 @@
-package com.topolaris.wmslite.ui.management;
+package com.topolaris.wmslite.ui.profile.management;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -80,20 +79,20 @@ public class UserManagementFragment extends Fragment {
         refresh = requireView().findViewById(R.id.um_swipe_refresh);
         recyclerView = requireView().findViewById(R.id.um_rv);
         if (WmsLiteApplication.getAccount().getAuthority() == UserAuthority.ADMINISTRATOR) {
-            MaterialCardView addUser = requireView().findViewById(R.id.um_add);
+            MaterialCardView addUser = requireView().findViewById(R.id.um_mcv_add);
             addUser.setOnClickListener(v -> {
                 View view = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_account, null, false);
                 User newUser = new User();
                 newUser.setAuthority(UserAuthority.CHECKER);
                 newUser.setUid(UUID.randomUUID().toString());
-                ((TextView) view.findViewById(R.id.dialog_ac_uid)).setText(newUser.getUid());
-                RadioGroup radioGroup = view.findViewById(R.id.dialog_ac_rg);
+                ((TextView) view.findViewById(R.id.dialog_aa_tv_uid)).setText(newUser.getUid());
+                RadioGroup radioGroup = view.findViewById(R.id.dialog_aa_rg);
                 radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-                    if (checkedId == R.id.dialog_ac_rb_a) {
+                    if (checkedId == R.id.dialog_aa_rb_a) {
                         newUser.setAuthority(UserAuthority.ADMINISTRATOR);
-                    } else if (checkedId == R.id.dialog_ac_rb_p) {
+                    } else if (checkedId == R.id.dialog_aa_rb_p) {
                         newUser.setAuthority(UserAuthority.PURCHASER);
-                    } else if (checkedId == R.id.dialog_ac_rb_s) {
+                    } else if (checkedId == R.id.dialog_aa_rb_s) {
                         newUser.setAuthority(UserAuthority.SHIPMENT);
                     } else {
                         newUser.setAuthority(UserAuthority.CHECKER);
@@ -104,8 +103,8 @@ public class UserManagementFragment extends Fragment {
                         .setView(view)
                         .setNegativeButton("取消", (dialog, which) -> Toast.makeText(requireContext(), "注册取消", Toast.LENGTH_SHORT).show())
                         .setPositiveButton("确定", (dialog, which) -> {
-                            String userName = ((TextView) view.findViewById(R.id.dialog_ac_name)).getText().toString();
-                            String userPassword = ((TextView) view.findViewById(R.id.dialog_ac_password)).getText().toString();
+                            String userName = ((TextView) view.findViewById(R.id.dialog_aa_et_name)).getText().toString();
+                            String userPassword = ((TextView) view.findViewById(R.id.dialog_aa_et_password)).getText().toString();
                             newUser.setName(userName);
                             newUser.setPassword(userPassword);
                             ThreadPool.EXECUTOR.execute(() -> {

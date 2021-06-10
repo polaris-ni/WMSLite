@@ -1,4 +1,4 @@
-package com.topolaris.wmslite.ui.management;
+package com.topolaris.wmslite.ui.profile.management;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

@@ -72,10 +72,10 @@ public class AllGoodsAdapter extends RecyclerView.Adapter<AllGoodsAdapter.MyView
         public MyViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             materialCardView = itemView.findViewById(R.id.item_rv_all_mcv);
-            index = itemView.findViewById(R.id.item_all_index);
-            name = itemView.findViewById(R.id.item_all_name);
-            inventory = itemView.findViewById(R.id.item_all_inventory);
-            manufacturer = itemView.findViewById(R.id.item_all_manufacturer);
+            index = itemView.findViewById(R.id.item_all_tv_index);
+            name = itemView.findViewById(R.id.item_all_tv_name);
+            inventory = itemView.findViewById(R.id.item_all_tv_inventory);
+            manufacturer = itemView.findViewById(R.id.item_all_tv_manufacturer);
         }
     }
 }

@@ -5,12 +5,12 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -44,17 +44,16 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        getWindow().setStatusBarColor(Color.GRAY);
         initView();
         restoreData();
-
         loginButton.setOnClickListener(v -> {
             waitingDialog.show();
             String username = usernameEditText.getText().toString();
             String password = passwordEditText.getText().toString();
             checkAccount(username, password);
         });
-        forgot.setOnClickListener(v -> Toast.makeText(WmsLiteApplication.context, "请使用Uid登录或者向管理员查询密码", Toast.LENGTH_LONG).show());
+        forgot.setOnClickListener(v -> ToastUtil.show("请使用Uid登录或者向管理员查询密码"));
         Objects.requireNonNull(getSupportActionBar()).hide();
     }
 
@@ -129,7 +128,7 @@ public class LoginActivity extends AppCompatActivity {
                 Cache.setAuthority(user.getAuthority());
                 Cache.updateCacheByAuthority();
                 WmsLiteApplication.setAccount(currentUser);
-                runOnUiThread(() -> Toast.makeText(WmsLiteApplication.context, currentUser.getAuthorityString(), Toast.LENGTH_SHORT).show());
+                ToastUtil.showOnUiThread(currentUser.getAuthorityString() + "，你好！", this);
                 saveNameAndPassword(user, switchMaterial);
                 runOnUiThread(() -> waitingDialog.dismiss());
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));

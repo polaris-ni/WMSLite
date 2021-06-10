@@ -1,4 +1,4 @@
-package com.topolaris.wmslite.ui.order.single;
+package com.topolaris.wmslite.ui.order.page;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -29,14 +29,16 @@ import java.util.ArrayList;
  * description 订单界面RecyclerView的适配器
  * @date 2021/6/2 17:12
  */
-public class OrderPageAdapter extends RecyclerView.Adapter<OrderPageAdapter.OrderPageAdapterViewHolder> {
-//    private static final String TAG = "OrderPageAdapter";
-
+public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderPageAdapterViewHolder> {
     private final Fragment fragment;
-    private final OrderType type;
+    private OrderType type;
     private ArrayList<Order> orders;
 
-    public OrderPageAdapter(Fragment fragment, ArrayList<Order> orders, OrderType type) {
+    public void setType(OrderType type) {
+        this.type = type;
+    }
+
+    public OrderAdapter(Fragment fragment, ArrayList<Order> orders, OrderType type) {
         this.fragment = fragment;
         this.orders = orders;
         this.type = type;
@@ -67,16 +69,16 @@ public class OrderPageAdapter extends RecyclerView.Adapter<OrderPageAdapter.Orde
         } else {
             switch (order.getState()) {
                 case 0:
-                    holder.goodsStatusImage.setImageDrawable(ContextCompat.getDrawable(fragment.requireContext(), R.drawable.ic_order_status_ok));
+                    holder.goodsStatusImage.setImageDrawable(ContextCompat.getDrawable(fragment.requireContext(), R.drawable.ic_order_status_excuted_28));
                     break;
                 case 1:
-                    holder.goodsStatusImage.setImageDrawable(ContextCompat.getDrawable(fragment.requireContext(), R.drawable.ic_order_status_waiting));
+                    holder.goodsStatusImage.setImageDrawable(ContextCompat.getDrawable(fragment.requireContext(), R.drawable.ic_order_status_waiting_28));
                     break;
                 case 2:
-                    holder.goodsStatusImage.setImageDrawable(ContextCompat.getDrawable(fragment.requireContext(), R.drawable.ic_order_status_canceled));
+                    holder.goodsStatusImage.setImageDrawable(ContextCompat.getDrawable(fragment.requireContext(), R.drawable.ic_order_status_revoked_28));
                     break;
                 case 3:
-                    holder.goodsStatusImage.setImageDrawable(ContextCompat.getDrawable(fragment.requireContext(), R.drawable.ic_order_status_error));
+                    holder.goodsStatusImage.setImageDrawable(ContextCompat.getDrawable(fragment.requireContext(), R.drawable.ic_order_status_error_28));
                     break;
                 default:
                     break;
@@ -115,12 +117,15 @@ public class OrderPageAdapter extends RecyclerView.Adapter<OrderPageAdapter.Orde
 
         public OrderPageAdapterViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
-            name = itemView.findViewById(R.id.item_order_name);
-            goodsId = itemView.findViewById(R.id.item_order_id);
-            number = itemView.findViewById(R.id.item_order_number);
-            inventory = itemView.findViewById(R.id.item_order_inventory);
-            goodsStatusImage = itemView.findViewById(R.id.item_order_status);
+            name = itemView.findViewById(R.id.item_order_tv_name);
+            goodsId = itemView.findViewById(R.id.item_order_tv_id);
+            number = itemView.findViewById(R.id.item_order_tv_number);
+            inventory = itemView.findViewById(R.id.item_order_tv_inventory);
+            goodsStatusImage = itemView.findViewById(R.id.item_order_iv_status);
             materialCardView = itemView.findViewById(R.id.item_rv_order_mcv);
         }
     }
+
+
+
 }

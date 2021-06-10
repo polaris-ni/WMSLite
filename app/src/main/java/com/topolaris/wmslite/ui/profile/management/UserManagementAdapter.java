@@ -1,4 +1,4 @@
-package com.topolaris.wmslite.ui.management;
+package com.topolaris.wmslite.ui.profile.management;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -67,8 +67,8 @@ public class UserManagementAdapter extends RecyclerView.Adapter<UserManagementAd
                     .setView(view)
                     .setNegativeButton("取消", (dialog, which) -> Toast.makeText(context, "修改取消", Toast.LENGTH_SHORT).show())
                     .setPositiveButton("修改", (dialog, which) -> {
-                        user.setName(((TextView) view.findViewById(R.id.dialog_ac_name)).getText().toString());
-                        user.setPassword(((TextView) view.findViewById(R.id.dialog_ac_password)).getText().toString());
+                        user.setName(((TextView) view.findViewById(R.id.dialog_aa_et_name)).getText().toString());
+                        user.setPassword(((TextView) view.findViewById(R.id.dialog_aa_et_password)).getText().toString());
                         ThreadPool.EXECUTOR.execute(() -> {
                             String sql = "update wmsusers set uName = " + "\"" + user.getName() + "\"," + "uPassword = " + "\"" + user.getPassword() + "\"," + "authority = " + user.getAuthority() + " where uid = " + "\"" + user.getUid() + "\";";
                             String message = DatabaseUtil.executeSqlWithoutResult(sql) ? "修改成功" : "修改失败，请重试";
@@ -79,8 +79,8 @@ public class UserManagementAdapter extends RecyclerView.Adapter<UserManagementAd
                         });
                     })
                     .setNeutralButton("删除", (dialog, which) -> {
-                        user.setName(((TextView) view.findViewById(R.id.dialog_ac_name)).getText().toString());
-                        user.setPassword(((TextView) view.findViewById(R.id.dialog_ac_password)).getText().toString());
+                        user.setName(((TextView) view.findViewById(R.id.dialog_aa_et_name)).getText().toString());
+                        user.setPassword(((TextView) view.findViewById(R.id.dialog_aa_et_password)).getText().toString());
                         ThreadPool.EXECUTOR.execute(() -> {
                             String sql = "delete from wmsusers where uid = " + "\"" + user.getUid() + "\";";
                             String message = DatabaseUtil.executeSqlWithoutResult(sql) ? "删除成功" : "删除失败，请重试";
@@ -102,18 +102,18 @@ public class UserManagementAdapter extends RecyclerView.Adapter<UserManagementAd
 
     private void initDataByUser(View view, User user) {
         ((RadioButton) view.findViewById(getResourceIdByAuthority(user.getAuthority()))).setChecked(true);
-        ((TextView) view.findViewById(R.id.dialog_ac_uid_title)).setText(R.string.dialog_ac_uid_title2);
-        ((TextView) view.findViewById(R.id.dialog_ac_uid)).setText(user.getUid());
-        ((EditText) view.findViewById(R.id.dialog_ac_name)).setText(user.getName());
-        ((EditText) view.findViewById(R.id.dialog_ac_password)).setText(user.getPassword());
-        ((RadioGroup) view.findViewById(R.id.dialog_ac_rg)).setOnCheckedChangeListener((group, checkedId) -> {
-            if (checkedId == R.id.dialog_ac_rb_a) {
+        ((TextView) view.findViewById(R.id.dialog_aa_tv_warning)).setText(R.string.dialog_ac_uid_title2);
+        ((TextView) view.findViewById(R.id.dialog_aa_tv_uid)).setText(user.getUid());
+        ((EditText) view.findViewById(R.id.dialog_aa_et_name)).setText(user.getName());
+        ((EditText) view.findViewById(R.id.dialog_aa_et_password)).setText(user.getPassword());
+        ((RadioGroup) view.findViewById(R.id.dialog_aa_rg)).setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId == R.id.dialog_aa_rb_a) {
                 user.setAuthority(UserAuthority.ADMINISTRATOR);
-            } else if (checkedId == R.id.dialog_ac_rb_p) {
+            } else if (checkedId == R.id.dialog_aa_rb_p) {
                 user.setAuthority(UserAuthority.PURCHASER);
-            } else if (checkedId == R.id.dialog_ac_rb_s) {
+            } else if (checkedId == R.id.dialog_aa_rb_s) {
                 user.setAuthority(UserAuthority.SHIPMENT);
-            } else if (checkedId == R.id.dialog_ac_rb_c) {
+            } else if (checkedId == R.id.dialog_aa_rb_c) {
                 user.setAuthority(UserAuthority.CHECKER);
             }
         });
@@ -126,13 +126,13 @@ public class UserManagementAdapter extends RecyclerView.Adapter<UserManagementAd
 
     private int getResourceIdByAuthority(int authority) {
         if (authority == UserAuthority.ADMINISTRATOR) {
-            return R.id.dialog_ac_rb_a;
+            return R.id.dialog_aa_rb_a;
         } else if (authority == UserAuthority.PURCHASER) {
-            return R.id.dialog_ac_rb_p;
+            return R.id.dialog_aa_rb_p;
         } else if (authority == UserAuthority.SHIPMENT) {
-            return R.id.dialog_ac_rb_s;
+            return R.id.dialog_aa_rb_s;
         } else {
-            return R.id.dialog_ac_rb_c;
+            return R.id.dialog_aa_rb_c;
         }
     }
 

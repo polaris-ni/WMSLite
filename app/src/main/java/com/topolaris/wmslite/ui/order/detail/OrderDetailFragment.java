@@ -1,4 +1,4 @@
-package com.topolaris.wmslite.ui.order.modifier;
+package com.topolaris.wmslite.ui.order.detail;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -106,17 +105,17 @@ public class OrderDetailFragment extends Fragment {
     }
 
     private void initView() {
-        TextView name = requireView().findViewById(R.id.order_detail_goods_name);
-        TextView inventory = requireView().findViewById(R.id.order_detail_goods_inventory);
-        TextView date = requireView().findViewById(R.id.order_detail_date);
-        state = requireView().findViewById(R.id.order_detail_state);
-        number = requireView().findViewById(R.id.order_detail_number);
-        delete = requireView().findViewById(R.id.order_detail_delete);
-        save = requireView().findViewById(R.id.order_detail_save);
-        shortage = requireView().findViewById(R.id.order_detail_shortage);
-        revoke = requireView().findViewById(R.id.order_detail_revoke);
-        ensure = requireView().findViewById(R.id.order_detail_ensure);
-        modify = requireView().findViewById(R.id.order_detail_modify);
+        TextView name = requireView().findViewById(R.id.order_detail_tv_name);
+        TextView inventory = requireView().findViewById(R.id.order_detail_tv_inventory);
+        TextView date = requireView().findViewById(R.id.order_detail_tv_date);
+        state = requireView().findViewById(R.id.order_detail_tv_state);
+        number = requireView().findViewById(R.id.order_detail_tv_number);
+        delete = requireView().findViewById(R.id.order_detail_btn_delete);
+        save = requireView().findViewById(R.id.order_detail_btn_save);
+        shortage = requireView().findViewById(R.id.order_detail_btn_shortage);
+        revoke = requireView().findViewById(R.id.order_detail_btn_revoke);
+        ensure = requireView().findViewById(R.id.order_detail_btn_ensure);
+        modify = requireView().findViewById(R.id.order_detail_iv_modify);
         name.setText(goods.getName());
         inventory.setText(String.valueOf(goods.getInventory()));
         number.setText(String.valueOf(order.getNumber()));

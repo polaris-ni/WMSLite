@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,10 +32,8 @@ public class GoodsFragment extends Fragment {
     RecyclerView allRecyclerView, popularRecyclerView;
     private GoodsViewModel mViewModel;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private SearchView searchView;
-    private MaterialCardView addGoods;
+    private MaterialCardView addGoods, search;
     private int authority;
-    // TODO: 2021/6/2 搜索逻辑
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -77,18 +74,8 @@ public class GoodsFragment extends Fragment {
             swipeRefreshLayout.setRefreshing(false);
         });
         setAddGoodsListener(addGoods);
+        search.setOnClickListener(v -> Navigation.findNavController(requireView()).navigate(R.id.action_fragment_goods_to_fragment_search));
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
     }
 
     private void setAddGoodsListener(MaterialCardView addGoods) {
@@ -103,7 +90,7 @@ public class GoodsFragment extends Fragment {
         allRecyclerView = requireView().findViewById(R.id.goods_rv_all);
         popularRecyclerView = requireView().findViewById(R.id.goods_rv_popular);
         swipeRefreshLayout = requireView().findViewById(R.id.goods_swipe_refresh);
-        searchView = requireView().findViewById(R.id.goods_search);
+        search = requireView().findViewById(R.id.goods_mcv_search);
         addGoods = requireView().findViewById(R.id.goods_mcv_add);
     }
 }

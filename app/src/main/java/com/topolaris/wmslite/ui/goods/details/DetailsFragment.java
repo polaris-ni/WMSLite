@@ -1,4 +1,4 @@
-package com.topolaris.wmslite.ui.details;
+package com.topolaris.wmslite.ui.goods.details;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -76,11 +76,11 @@ public class DetailsFragment extends Fragment {
     private void setButtonClickListener() {
         if (authority == UserAuthority.PURCHASER) {
             purchaseButton.setClickable(true);
-            purchaseButton.setBackground(requireActivity().getDrawable(R.drawable.bg_button));
+            purchaseButton.setBackground(requireActivity().getDrawable(R.drawable.bg_button_on));
             purchaseButton.setOnClickListener(v -> makeOrder("purchase"));
         } else if (authority == UserAuthority.SHIPMENT) {
             shipmentButton.setClickable(true);
-            shipmentButton.setBackground(requireActivity().getDrawable(R.drawable.bg_button));
+            shipmentButton.setBackground(requireActivity().getDrawable(R.drawable.bg_button_on));
             shipmentButton.setOnClickListener(v -> makeOrder("shipment"));
         }
         saveButton.setOnClickListener(v -> {
@@ -190,17 +190,17 @@ public class DetailsFragment extends Fragment {
 
 
     private void initView() {
-        id = requireView().findViewById(R.id.details_goods_id);
-        name = requireView().findViewById(R.id.details_goods_name);
-        inventory = requireView().findViewById(R.id.details_goods_inventory);
-        sold = requireView().findViewById(R.id.details_goods_sold);
-        manufacturer = requireView().findViewById(R.id.details_goods_manufacturer);
-        location = requireView().findViewById(R.id.details_goods_location);
-        purchaseButton = requireView().findViewById(R.id.details_purchase);
-        shipmentButton = requireView().findViewById(R.id.details_shipment);
-        saveButton = requireView().findViewById(R.id.details_save);
-        deleteButton = requireView().findViewById(R.id.details_delete);
-        shortageButton = requireView().findViewById(R.id.details_shortage);
+        id = requireView().findViewById(R.id.details_tv_id);
+        name = requireView().findViewById(R.id.details_tv_name);
+        inventory = requireView().findViewById(R.id.details_tv_inventory);
+        sold = requireView().findViewById(R.id.details_tv_sold);
+        manufacturer = requireView().findViewById(R.id.details_tv_manufacturer);
+        location = requireView().findViewById(R.id.details_tv_location);
+        purchaseButton = requireView().findViewById(R.id.details_btn_purchase);
+        shipmentButton = requireView().findViewById(R.id.details_btn_shipment);
+        saveButton = requireView().findViewById(R.id.details_btn_save);
+        deleteButton = requireView().findViewById(R.id.details_btn_delete);
+        shortageButton = requireView().findViewById(R.id.details_btn_shortage);
         if (isAdd) {
             id.setVisibility(View.GONE);
             inventory.setVisibility(View.GONE);

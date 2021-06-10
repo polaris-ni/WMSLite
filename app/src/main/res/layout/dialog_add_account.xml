@@ -8,11 +8,11 @@
     android:padding="16dp">
 
     <EditText
-        android:id="@+id/dialog_ac_name"
+        android:id="@+id/dialog_aa_et_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:drawableStart="@drawable/ic_account"
+        android:drawableStart="@drawable/ic_user_24"
         android:drawablePadding="16dp"
         android:ems="10"
         android:hint="@string/login_prompt_username"
@@ -22,13 +22,13 @@
         android:textSize="20sp" />
 
     <EditText
-        android:id="@+id/dialog_ac_password"
+        android:id="@+id/dialog_aa_et_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/dialog_ac_name"
+        android:layout_below="@id/dialog_aa_et_name"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:drawableStart="@drawable/ic_password"
+        android:drawableStart="@drawable/ic_password_28"
         android:drawablePadding="16dp"
         android:ems="10"
         android:hint="@string/login_prompt_password"
@@ -38,16 +38,16 @@
         android:textSize="20sp" />
 
     <RadioGroup
-        android:id="@+id/dialog_ac_rg"
+        android:id="@+id/dialog_aa_rg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/dialog_ac_password"
+        android:layout_below="@id/dialog_aa_et_password"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
         android:orientation="horizontal">
 
         <RadioButton
-            android:id="@+id/dialog_ac_rb_a"
+            android:id="@+id/dialog_aa_rb_a"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
@@ -56,7 +56,7 @@
             android:textStyle="bold" />
 
         <RadioButton
-            android:id="@+id/dialog_ac_rb_p"
+            android:id="@+id/dialog_aa_rb_p"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
@@ -65,7 +65,7 @@
             android:textStyle="bold" />
 
         <RadioButton
-            android:id="@+id/dialog_ac_rb_s"
+            android:id="@+id/dialog_aa_rb_s"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
@@ -74,7 +74,7 @@
             android:textStyle="bold" />
 
         <RadioButton
-            android:id="@+id/dialog_ac_rb_c"
+            android:id="@+id/dialog_aa_rb_c"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
@@ -85,10 +85,10 @@
     </RadioGroup>
 
     <TextView
-        android:id="@+id/dialog_ac_uid_title"
+        android:id="@+id/dialog_aa_tv_warning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/dialog_ac_rg"
+        android:layout_below="@+id/dialog_aa_rg"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
         android:drawablePadding="8dp"
@@ -97,20 +97,20 @@
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:drawableStartCompat="@drawable/ic_warning" />
+        app:drawableStartCompat="@drawable/ic_warning_28" />
 
     <TextView
-        android:id="@+id/dialog_ac_uid"
+        android:id="@+id/dialog_aa_tv_uid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/dialog_ac_uid_title"
+        android:layout_below="@id/dialog_aa_tv_warning"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
         android:drawablePadding="8dp"
         android:padding="8dp"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:drawableStartCompat="@drawable/ic_uid"
+        app:drawableStartCompat="@drawable/ic_uid_30_21"
         tools:text="8c9c75d1-9e6c-47b6-a240-7e028b9e6a36" />
 
 

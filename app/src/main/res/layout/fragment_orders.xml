@@ -5,10 +5,10 @@
     android:id="@+id/fragment_all_orders"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.order.both.AllOrdersFragment">
+    tools:context=".ui.order.pages.AllOrdersFragment">
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/both_tab_layout"
+        android:id="@+id/orders_tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -18,9 +18,9 @@
         app:tabTextColor="@color/gray_light" />
 
     <androidx.viewpager.widget.ViewPager
-        android:id="@+id/both_viewpager"
+        android:id="@+id/orders_viewpager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/both_tab_layout" />
+        android:layout_below="@id/orders_tab_layout" />
 
 </RelativeLayout>

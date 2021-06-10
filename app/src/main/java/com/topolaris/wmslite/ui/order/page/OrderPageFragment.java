@@ -1,4 +1,4 @@
-package com.topolaris.wmslite.ui.order.single;
+package com.topolaris.wmslite.ui.order.page;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -53,14 +53,14 @@ public class OrderPageFragment extends Fragment {
         initView();
 
         orderRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
-        OrderPageAdapter orderPageAdapter = new OrderPageAdapter(this, Cache.getSelectedOrdersCache(type), type);
-        orderRecyclerView.setAdapter(orderPageAdapter);
+        OrderAdapter orderAdapter = new OrderAdapter(this, Cache.getSelectedOrdersCache(type), type);
+        orderRecyclerView.setAdapter(orderAdapter);
 
         mViewModel.refresh();
 
         mViewModel.getOrders().observe(getViewLifecycleOwner(), orders -> {
-            orderPageAdapter.setOrders(orders);
-            orderPageAdapter.notifyDataSetChanged();
+            orderAdapter.setOrders(orders);
+            orderAdapter.notifyDataSetChanged();
         });
 
         refresh.setColorSchemeResources(R.color.design_default_color_primary);
