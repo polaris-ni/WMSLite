@@ -1,4 +1,4 @@
-package com.topolaris.wmslite.ui.profile.management;
+package com.topolaris.wmslite.ui.main.profile.management;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -23,7 +23,9 @@ import com.topolaris.wmslite.R;
 import com.topolaris.wmslite.model.user.User;
 import com.topolaris.wmslite.model.user.UserAuthority;
 import com.topolaris.wmslite.repository.network.database.DatabaseUtil;
+import com.topolaris.wmslite.utils.DialogUtil;
 import com.topolaris.wmslite.utils.ThreadPool;
+import com.topolaris.wmslite.utils.ToastUtil;
 import com.topolaris.wmslite.utils.WmsLiteApplication;
 
 import java.util.UUID;
@@ -70,8 +72,6 @@ public class UserManagementFragment extends Fragment {
             mViewModel.refresh();
             refresh.setRefreshing(false);
         });
-
-
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -103,14 +103,18 @@ public class UserManagementFragment extends Fragment {
                         .setView(view)
                         .setNegativeButton("取消", (dialog, which) -> Toast.makeText(requireContext(), "注册取消", Toast.LENGTH_SHORT).show())
                         .setPositiveButton("确定", (dialog, which) -> {
+                            AlertDialog waitingDialog = DialogUtil.getWaitingDialog(getContext());
+                            waitingDialog.show();
                             String userName = ((TextView) view.findViewById(R.id.dialog_aa_et_name)).getText().toString();
                             String userPassword = ((TextView) view.findViewById(R.id.dialog_aa_et_password)).getText().toString();
                             newUser.setName(userName);
                             newUser.setPassword(userPassword);
                             ThreadPool.EXECUTOR.execute(() -> {
-                                String sql = "insert into wmsusers values" + newUser.getSql();
-                                String message = DatabaseUtil.executeSqlWithoutResult(sql) ? "注册成功" : "注册失败";
-                                requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show());
+                                String message = DatabaseUtil.createUser(newUser) ? "注册成功" : "注册失败";
+                                requireActivity().runOnUiThread(() -> {
+                                    ToastUtil.show(message);
+                                    waitingDialog.dismiss();
+                                });
                             });
                         })
                         .create();

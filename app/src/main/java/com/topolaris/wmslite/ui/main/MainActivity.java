@@ -1,4 +1,4 @@
-  package com.topolaris.wmslite;
+  package com.topolaris.wmslite.ui.main;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -15,6 +15,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.topolaris.wmslite.R;
 import com.topolaris.wmslite.databinding.ActivityMainBinding;
 
 import java.util.Objects;
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
             }
             return super.dispatchTouchEvent(ev);
         }
-        // 必不可少，否则所有的组件都不会有TouchEvent了
+        // 必不可少，否则所有的组件都不会有TouchEvent
         return getWindow().superDispatchTouchEvent(ev) || onTouchEvent(ev);
     }
 
@@ -78,5 +79,4 @@ public class MainActivity extends AppCompatActivity {
         }
         return false;
     }
-
 }

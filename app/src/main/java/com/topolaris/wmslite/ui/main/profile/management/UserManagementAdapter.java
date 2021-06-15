@@ -1,4 +1,4 @@
-package com.topolaris.wmslite.ui.profile.management;
+package com.topolaris.wmslite.ui.main.profile.management;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,7 +18,9 @@ import com.topolaris.wmslite.R;
 import com.topolaris.wmslite.model.user.User;
 import com.topolaris.wmslite.model.user.UserAuthority;
 import com.topolaris.wmslite.repository.network.database.DatabaseUtil;
+import com.topolaris.wmslite.utils.DialogUtil;
 import com.topolaris.wmslite.utils.ThreadPool;
+import com.topolaris.wmslite.utils.ToastUtil;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -59,33 +60,38 @@ public class UserManagementAdapter extends RecyclerView.Adapter<UserManagementAd
 
         holder.item.setOnClickListener(v -> {
             View view = LayoutInflater.from(context).inflate(R.layout.dialog_add_account, null, false);
-
             initDataByUser(view, user);
-
+            AlertDialog waitingDialog = DialogUtil.getWaitingDialog(context);
             AlertDialog registerUser = new AlertDialog.Builder(context)
                     .setTitle("用户信息修改")
                     .setView(view)
-                    .setNegativeButton("取消", (dialog, which) -> Toast.makeText(context, "修改取消", Toast.LENGTH_SHORT).show())
+                    .setNegativeButton("取消", (dialog, which) -> {
+                    })
                     .setPositiveButton("修改", (dialog, which) -> {
+                        waitingDialog.show();
+                        User oldUser = user.getCopy();
                         user.setName(((TextView) view.findViewById(R.id.dialog_aa_et_name)).getText().toString());
                         user.setPassword(((TextView) view.findViewById(R.id.dialog_aa_et_password)).getText().toString());
                         ThreadPool.EXECUTOR.execute(() -> {
-                            String sql = "update wmsusers set uName = " + "\"" + user.getName() + "\"," + "uPassword = " + "\"" + user.getPassword() + "\"," + "authority = " + user.getAuthority() + " where uid = " + "\"" + user.getUid() + "\";";
-                            String message = DatabaseUtil.executeSqlWithoutResult(sql) ? "修改成功" : "修改失败，请重试";
+                            String message = DatabaseUtil.updateUser(oldUser, user) ? "修改成功" : "修改失败，请重试";
                             fragment.requireActivity().runOnUiThread(() -> {
                                 setHolder(holder, user);
-                                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                                ToastUtil.show(message);
+                                waitingDialog.dismiss();
                             });
                         });
                     })
                     .setNeutralButton("删除", (dialog, which) -> {
+                        waitingDialog.show();
                         user.setName(((TextView) view.findViewById(R.id.dialog_aa_et_name)).getText().toString());
                         user.setPassword(((TextView) view.findViewById(R.id.dialog_aa_et_password)).getText().toString());
                         ThreadPool.EXECUTOR.execute(() -> {
-                            String sql = "delete from wmsusers where uid = " + "\"" + user.getUid() + "\";";
-                            String message = DatabaseUtil.executeSqlWithoutResult(sql) ? "删除成功" : "删除失败，请重试";
-                            fragment.requireActivity().runOnUiThread(() -> Toast.makeText(context, message, Toast.LENGTH_SHORT).show());
+                            String message = DatabaseUtil.deleteUser(user) ? "删除成功" : "删除失败，请重试";
                             fragment.getViewModel().refresh();
+                            fragment.requireActivity().runOnUiThread(() -> {
+                                ToastUtil.show(message);
+                                waitingDialog.dismiss();
+                            });
                         });
                     })
                     .create();

@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/fragment_goods"
-        android:name="com.topolaris.wmslite.ui.goods.GoodsFragment"
+        android:name="com.topolaris.wmslite.ui.main.goods.GoodsFragment"
         android:label="@string/menu_goods"
         tools:layout="@layout/fragment_goods">
         <action
@@ -18,19 +18,19 @@
     </fragment>
     <fragment
         android:id="@+id/fragment_details"
-        android:name="com.topolaris.wmslite.ui.goods.details.DetailsFragment"
+        android:name="com.topolaris.wmslite.ui.main.goods.details.DetailsFragment"
         tools:layout="@layout/fragment_details" />
     <fragment
         android:id="@+id/fragment_orders"
-        android:name="com.topolaris.wmslite.ui.order.pages.AllOrdersFragment"
+        android:name="com.topolaris.wmslite.ui.main.order.pages.AllOrdersFragment"
         tools:layout="@layout/fragment_orders" />
     <fragment
         android:id="@+id/fragment_user_management"
-        android:name="com.topolaris.wmslite.ui.profile.management.UserManagementFragment"
+        android:name="com.topolaris.wmslite.ui.main.profile.management.UserManagementFragment"
         tools:layout="@layout/fragment_user_management" />
     <fragment
         android:id="@+id/fragment_profile"
-        android:name="com.topolaris.wmslite.ui.profile.ProfileFragment"
+        android:name="com.topolaris.wmslite.ui.main.profile.ProfileFragment"
         tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_fragment_profile_to_fragment_user_management"
@@ -38,7 +38,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragment_order"
-        android:name="com.topolaris.wmslite.ui.order.page.OrderPageFragment"
+        android:name="com.topolaris.wmslite.ui.main.order.page.OrderPageFragment"
         android:label="fragment_order_page"
         tools:layout="@layout/fragment_order_page" >
         <action
@@ -47,11 +47,11 @@
     </fragment>
     <fragment
         android:id="@+id/fragment_order_detail"
-        android:name="com.topolaris.wmslite.ui.order.detail.OrderDetailFragment"
+        android:name="com.topolaris.wmslite.ui.main.order.detail.OrderDetailFragment"
         tools:layout="@layout/fragment_order_detail" />
     <fragment
         android:id="@+id/fragment_search"
-        android:name="com.topolaris.wmslite.ui.goods.search.SearchFragment"
+        android:name="com.topolaris.wmslite.ui.main.goods.search.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
 </navigation>

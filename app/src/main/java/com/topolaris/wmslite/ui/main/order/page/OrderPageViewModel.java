@@ -1,4 +1,4 @@
-package com.topolaris.wmslite.ui.order.page;
+package com.topolaris.wmslite.ui.main.order.page;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -17,8 +17,6 @@ import java.util.ArrayList;
  * @date 2021/6/2 18:47
  */
 public class OrderPageViewModel extends ViewModel {
-//    private static final String TAG = "OrderPageViewModel";
-
     private final MutableLiveData<ArrayList<Order>> orders;
     private OrderType type;
 

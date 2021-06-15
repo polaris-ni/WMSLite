@@ -1,4 +1,4 @@
-package com.topolaris.wmslite.ui.order.detail;
+package com.topolaris.wmslite.ui.main.order.detail;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +24,7 @@ import com.topolaris.wmslite.model.order.Order;
 import com.topolaris.wmslite.model.user.User;
 import com.topolaris.wmslite.model.user.UserAuthority;
 import com.topolaris.wmslite.repository.network.database.DatabaseUtil;
+import com.topolaris.wmslite.utils.DialogUtil;
 import com.topolaris.wmslite.utils.ThreadPool;
 import com.topolaris.wmslite.utils.ToastUtil;
 import com.topolaris.wmslite.utils.WmsLiteApplication;
@@ -35,7 +35,6 @@ import com.topolaris.wmslite.utils.WmsLiteApplication;
  * @date 2021/6/9 20:20:32
  */
 public class OrderDetailFragment extends Fragment {
-    private static final String TAG = "OrderDetailFragment";
     private final User account = WmsLiteApplication.getAccount();
     private Goods goods;
     private Order order;
@@ -43,6 +42,7 @@ public class OrderDetailFragment extends Fragment {
     private ImageView modify;
     private Button delete, save, shortage, revoke, ensure;
     private String tableName;
+    private AlertDialog waitingDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -116,6 +116,7 @@ public class OrderDetailFragment extends Fragment {
         revoke = requireView().findViewById(R.id.order_detail_btn_revoke);
         ensure = requireView().findViewById(R.id.order_detail_btn_ensure);
         modify = requireView().findViewById(R.id.order_detail_iv_modify);
+        waitingDialog = DialogUtil.getWaitingDialog(requireContext());
         name.setText(goods.getName());
         inventory.setText(String.valueOf(goods.getInventory()));
         number.setText(String.valueOf(order.getNumber()));
@@ -124,7 +125,6 @@ public class OrderDetailFragment extends Fragment {
     }
 
     private void showConfirmDialog(String sql) {
-        Log.e(TAG, "showConfirmDialog: Here");
         View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_input, null, false);
         EditText editText = dialogView.findViewById(R.id.dialog_input_et);
         AlertDialog alertDialog = new AlertDialog.Builder(requireContext())
@@ -152,12 +152,19 @@ public class OrderDetailFragment extends Fragment {
                 .setNegativeButton("取消", (dialog, which) -> {
                 })
                 .setPositiveButton("确认", (dialog, which) -> {
+                    waitingDialog.show();
                     Editable text = editText.getText();
                     if (TextUtils.isEmpty(text) || !TextUtils.isDigitsOnly(text) || Long.parseLong(text.toString()) <= 0) {
                         ToastUtil.show("输入不合法");
                     } else {
                         String sql = "insert into shortage(goods_id, number, date) values(" + goods.getIndex() + ", " + Long.parseLong(text.toString()) + ", CURDATE())";
-                        ThreadPool.EXECUTOR.execute(() -> ToastUtil.showOnUiThread(DatabaseUtil.executeSqlWithoutResult(sql) ? "订单建立成功" : "订单建立失败请重试", requireActivity()));
+                        ThreadPool.EXECUTOR.execute(() -> {
+                            String message = DatabaseUtil.executeSqlWithoutResult(sql) ? "订单建立成功" : "订单建立失败请重试";
+                            requireActivity().runOnUiThread(() -> {
+                                waitingDialog.dismiss();
+                                ToastUtil.show(message);
+                            });
+                        });
                     }
                 })
                 .create();

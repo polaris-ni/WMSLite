@@ -1,4 +1,4 @@
-package com.topolaris.wmslite.ui.order.page;
+package com.topolaris.wmslite.ui.main.order.page;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -22,8 +22,6 @@ import com.topolaris.wmslite.repository.local.Cache;
  * @date 2021/6/2 17:12
  */
 public class OrderPageFragment extends Fragment {
-//    private static final String TAG = "OrderPageFragment";
-
     private final OrderType type;
     private OrderPageViewModel mViewModel;
     private RecyclerView orderRecyclerView;
@@ -32,7 +30,6 @@ public class OrderPageFragment extends Fragment {
     public OrderPageFragment(OrderType type) {
         this.type = type;
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

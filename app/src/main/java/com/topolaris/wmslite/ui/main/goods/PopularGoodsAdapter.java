@@ -1,4 +1,4 @@
-package com.topolaris.wmslite.ui.goods;
+package com.topolaris.wmslite.ui.main.goods;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

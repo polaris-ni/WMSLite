@@ -1,4 +1,4 @@
-package com.topolaris.wmslite.ui.goods.search;
+package com.topolaris.wmslite.ui.main.goods.search;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -19,7 +19,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.topolaris.wmslite.R;
 import com.topolaris.wmslite.model.order.OrderType;
-import com.topolaris.wmslite.ui.order.page.OrderAdapter;
+import com.topolaris.wmslite.ui.main.order.page.OrderAdapter;
 
 /**
  * @author Liangyong Ni

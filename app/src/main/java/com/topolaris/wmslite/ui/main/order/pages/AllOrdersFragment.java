@@ -1,4 +1,4 @@
-package com.topolaris.wmslite.ui.order.pages;
+package com.topolaris.wmslite.ui.main.order.pages;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,7 +13,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.topolaris.wmslite.R;
 import com.topolaris.wmslite.model.order.OrderType;
 import com.topolaris.wmslite.model.user.UserAuthority;
-import com.topolaris.wmslite.ui.order.page.OrderPageFragment;
+import com.topolaris.wmslite.ui.main.order.page.OrderPageFragment;
 import com.topolaris.wmslite.utils.WmsLiteApplication;
 
 import java.util.ArrayList;

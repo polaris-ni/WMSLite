@@ -3,7 +3,6 @@
 
     <string name="menu_goods">货物列表</string>
 
-    <string name="login_welcome">欢迎使用仓库管理系统\n请先登录账号</string>
     <string name="login_author">Powered By toPolaris Ni</string>
     <string name="login_login">登录</string>
     <string name="login_prompt_username">请输入用户名</string>
@@ -17,22 +16,16 @@
     <string name="goods_add">添加商品</string>
     <string name="goods_tip">点击修改商品属性</string>
 
-    <string name="fab_content">菜单</string>
-
     <string name="details_purchase">采购</string>
     <string name="details_shipment">销售</string>
     <string name="details_save">保存</string>
     <string name="details_delete">删除</string>
     <string name="details_shortage">缺货登记</string>
 
-    <string name="order_title_purchase">采购订单</string>
-    <string name="order_title_shipment">销售订单</string>
-    <string name="order_title_shortage">缺货登记</string>
     <string name="order_status">订单状态</string>
 
     <string name="um_title">用户列表</string>
     <string name="um_fab_desc">添加用户</string>
-    <string name="um_search_hint">请输入要搜索的用户</string>
 
     <string name="administrator">管理</string>
     <string name="purchase">购买</string>
@@ -50,7 +43,6 @@
     <string name="profile_modify_name">修改名称</string>
     <string name="profile_modify_pw">修改密码</string>
     <string name="profile_log_off">注销用户</string>
-    <string name="profile_log_out">退出登录</string>
     <string name="profile_user_management">用户管理</string>
 
     <string name="order_detail_title">订单信息</string>
@@ -58,7 +50,6 @@
     <string name="order_detail_revoke">撤销</string>
     <string name="order_detail_desc_modify">修改</string>
 
-    <string name="search_goods">商品单</string>
     <string name="search_purchase">采购单</string>
     <string name="search_shipment">销售单</string>
     <string name="search_shortage">缺货单</string>

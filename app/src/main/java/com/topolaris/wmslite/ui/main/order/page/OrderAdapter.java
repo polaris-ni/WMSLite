@@ -1,4 +1,4 @@
-package com.topolaris.wmslite.ui.order.page;
+package com.topolaris.wmslite.ui.main.order.page;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

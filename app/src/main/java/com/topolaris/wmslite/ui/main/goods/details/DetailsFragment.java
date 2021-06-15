@@ -1,4 +1,4 @@
-package com.topolaris.wmslite.ui.goods.details;
+package com.topolaris.wmslite.ui.main.goods.details;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -34,15 +34,11 @@ import java.util.ArrayList;
  * @date 2021/5/19 14:32
  */
 public class DetailsFragment extends Fragment {
-
-//    private static final String TAG = "DetailsFragment";
-
     private Goods goods;
     private TextView id, name, inventory, sold, manufacturer, location;
     private Button purchaseButton, shipmentButton, saveButton, deleteButton, shortageButton;
     private boolean isAdd;
     private int authority;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

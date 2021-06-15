@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -15,11 +14,12 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
-import com.topolaris.wmslite.MainActivity;
 import com.topolaris.wmslite.R;
 import com.topolaris.wmslite.model.user.User;
 import com.topolaris.wmslite.repository.local.Cache;
 import com.topolaris.wmslite.repository.network.database.DatabaseUtil;
+import com.topolaris.wmslite.ui.main.MainActivity;
+import com.topolaris.wmslite.utils.DialogUtil;
 import com.topolaris.wmslite.utils.ThreadPool;
 import com.topolaris.wmslite.utils.ToastUtil;
 import com.topolaris.wmslite.utils.WmsLiteApplication;
@@ -80,10 +80,7 @@ public class LoginActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.login_et_password);
         loginButton = findViewById(R.id.login_btn_login);
         switchMaterial = findViewById(R.id.login_sm_rem_pw);
-        waitingDialog = new AlertDialog.Builder(LoginActivity.this)
-                .setTitle("Waiting")
-                .setView(LayoutInflater.from(this).inflate(R.layout.dialog_waiting, null, false))
-                .create();
+        waitingDialog = DialogUtil.getWaitingDialog(this);
     }
 
     @Override
@@ -92,6 +89,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkAccount(String username, String password) {
+        // 设置连接为管理员权限连接
+        DatabaseUtil.setConnectorUserWithAdmin();
         String querySql = "select * from wmsusers where uName = \"" + username + "\";";
         ThreadPool.EXECUTOR.execute(() -> {
             User user = new User(username, password);
@@ -122,8 +121,8 @@ public class LoginActivity extends AppCompatActivity {
                 saveNameAndPassword(user, switchMaterial);
             } else {
                 // 账号密码正确
-                // TODO: 2021/6/7 修改数据库登录账号
                 user = currentUser;
+                DatabaseUtil.setConnectorUser(user);
                 // 根据登录用户权限请求相应数据到本地
                 Cache.setAuthority(user.getAuthority());
                 Cache.updateCacheByAuthority();

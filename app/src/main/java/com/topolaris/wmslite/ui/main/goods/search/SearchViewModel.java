@@ -1,4 +1,4 @@
-package com.topolaris.wmslite.ui.goods.search;
+package com.topolaris.wmslite.ui.main.goods.search;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

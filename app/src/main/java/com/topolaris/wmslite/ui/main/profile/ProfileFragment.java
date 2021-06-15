@@ -1,4 +1,4 @@
-package com.topolaris.wmslite.ui.profile;
+package com.topolaris.wmslite.ui.main.profile;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -21,6 +21,7 @@ import com.topolaris.wmslite.model.user.User;
 import com.topolaris.wmslite.model.user.UserAuthority;
 import com.topolaris.wmslite.repository.network.database.DatabaseUtil;
 import com.topolaris.wmslite.ui.login.LoginActivity;
+import com.topolaris.wmslite.utils.DialogUtil;
 import com.topolaris.wmslite.utils.ThreadPool;
 import com.topolaris.wmslite.utils.ToastUtil;
 import com.topolaris.wmslite.utils.WmsLiteApplication;
@@ -38,6 +39,7 @@ public class ProfileFragment extends Fragment {
     private MaterialCardView userManagement;
     private MaterialCardView mName, mPassword, logout, logoff;
     private User account;
+    private AlertDialog waitingDialog;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -85,6 +87,8 @@ public class ProfileFragment extends Fragment {
         mPassword = requireView().findViewById(R.id.profile_mcv_pw);
         logoff = requireView().findViewById(R.id.profile_mcv_log_off);
         logout = requireView().findViewById(R.id.profile_mcv_log_out);
+
+        waitingDialog = DialogUtil.getWaitingDialog(requireContext());
     }
 
     private void showModifyDialog(int type) {
@@ -102,6 +106,7 @@ public class ProfileFragment extends Fragment {
                     if (TextUtils.isEmpty(editText.getText())) {
                         ToastUtil.show("输入不合法");
                     } else {
+                        waitingDialog.show();
                         if (type == 0) {
                             modifyUsername(editText.getText().toString());
                         } else if (type == 1) {
@@ -119,50 +124,80 @@ public class ProfileFragment extends Fragment {
         if (account.getPassword().equals(password)) {
             ThreadPool.EXECUTOR.execute(() -> {
                 String querySql = "select * from wmsusers where uid = \"" + account.getUid() + "\";";
-                ArrayList<User> result = DatabaseUtil.executeSqlWithResult(querySql, User.class);
+                ArrayList<User> result = DatabaseUtil.executeAdminSqlWithResult(querySql, User.class);
                 if (result == null) {
-                    ToastUtil.showOnUiThread("网络错误，修改失败",requireActivity());
+                    requireActivity().runOnUiThread(() -> {
+                        ToastUtil.show("网络错误，修改失败");
+                        waitingDialog.dismiss();
+                    });
                 } else if (result.isEmpty()) {
-                    ToastUtil.showOnUiThread("用户已删除",requireActivity());
+                    requireActivity().runOnUiThread(() -> {
+                        ToastUtil.show("用户已删除");
+                        waitingDialog.dismiss();
+                        DatabaseUtil.setConnectorUserWithAdmin();
+                    });
                     returnToLogin();
                 } else {
-                    String sql = "delete from wmsusers where uid = \"" + account.getUid() + "\";";
-                    if (DatabaseUtil.executeSqlWithoutResult(sql)) {
-                        ToastUtil.showOnUiThread("删除成功",requireActivity());
+                    if (DatabaseUtil.deleteUser(account)) {
+                        requireActivity().runOnUiThread(() -> {
+                            ToastUtil.show("删除成功");
+                            DatabaseUtil.setConnectorUserWithAdmin();
+                            waitingDialog.dismiss();
+                        });
                         returnToLogin();
                     } else {
-                        ToastUtil.showOnUiThread("删除失败，请重试",requireActivity());
+                        requireActivity().runOnUiThread(() -> {
+                            ToastUtil.show("删除失败，请重试");
+                            DatabaseUtil.setConnectorUserWithAdmin();
+                            waitingDialog.dismiss();
+                        });
                     }
                 }
             });
         } else {
             ToastUtil.show("密码输入错误，删除失败");
+            waitingDialog.dismiss();
         }
     }
 
     private void modifyUsername(String newUsername) {
         if (newUsername.equals(account.getName())) {
             ToastUtil.show("新用户名不能与原用户名相同");
+            waitingDialog.dismiss();
         } else if (newUsername.contains(space)) {
             ToastUtil.show("用户名中不能含有空格");
+            waitingDialog.dismiss();
         } else {
             ThreadPool.EXECUTOR.execute(() -> {
+                User oldUser = account.getCopy();
                 String querySql = "select * from wmsusers where uName = \"" + username + "\";";
                 ArrayList<User> result = DatabaseUtil.executeSqlWithResult(querySql, User.class);
                 if (result == null) {
-                    ToastUtil.showOnUiThread("网络错误，修改失败", requireActivity());
+                    requireActivity().runOnUiThread(() -> {
+                        ToastUtil.show("网络错误，修改失败");
+                        waitingDialog.dismiss();
+                    });
                 } else if (!result.isEmpty()) {
-                    ToastUtil.showOnUiThread("用户名重复，修改失败", requireActivity());
+                    requireActivity().runOnUiThread(() -> {
+                        ToastUtil.show("用户名重复，修改失败");
+                        waitingDialog.dismiss();
+                    });
                 } else {
-                    String sql = "update wmsusers set uName = \"" + newUsername + "\" where uid = \"" + account.getUid() + "\";";
-                    if (DatabaseUtil.executeSqlWithoutResult(sql)) {
+                    account.setName(newUsername);
+                    if (DatabaseUtil.updateUser(oldUser, account)) {
+                        DatabaseUtil.setConnectorUser(account);
                         requireActivity().runOnUiThread(() -> {
                             username.setText(newUsername);
                             ToastUtil.show("修改成功");
+                            waitingDialog.dismiss();
                         });
-                        WmsLiteApplication.getAccount().setName(newUsername);
                     } else {
-                        ToastUtil.showOnUiThread("修改失败，请重试", requireActivity());
+                        // 还原用户名
+                        account.setName(oldUser.getName());
+                        requireActivity().runOnUiThread(() -> {
+                            ToastUtil.show("修改失败，请重试");
+                            waitingDialog.dismiss();
+                        });
                     }
                 }
             });
@@ -171,17 +206,27 @@ public class ProfileFragment extends Fragment {
 
     private void modifyPassword(String newPassword) {
         if (newPassword.equals(account.getPassword())) {
+            waitingDialog.dismiss();
             ToastUtil.show("新密码不能与原密码相同");
         } else if (newPassword.contains(space)) {
+            waitingDialog.dismiss();
             ToastUtil.show("密码中不能含有空格");
         } else {
             ThreadPool.EXECUTOR.execute(() -> {
-                String sql = "update wmsusers set uPassword = \"" + newPassword + "\" where uid = \"" + account.getUid() + "\";";
-                if (DatabaseUtil.executeSqlWithoutResult(sql)) {
-                    account.setPassword(newPassword);
-                    ToastUtil.showOnUiThread("修改成功", requireActivity());
+                User oldUser = account.getCopy();
+                account.setPassword(newPassword);
+                if (DatabaseUtil.updateUser(oldUser, account)) {
+                    DatabaseUtil.setConnectorUser(account);
+                    requireActivity().runOnUiThread(() -> {
+                        ToastUtil.show("修改成功");
+                        waitingDialog.dismiss();
+                    });
                 } else {
-                    ToastUtil.showOnUiThread("修改失败，请重试", requireActivity());
+                    account.setPassword(oldUser.getPassword());
+                    requireActivity().runOnUiThread(() -> {
+                        ToastUtil.show("修改失败，请重试");
+                        waitingDialog.dismiss();
+                    });
                 }
             });
         }

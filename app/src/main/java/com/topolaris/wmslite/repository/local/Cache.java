@@ -47,7 +47,6 @@ public class Cache {
                 return goods;
             }
         }
-        // TODO: 2021/6/2 刷新缓存重试
         return null;
     }
 

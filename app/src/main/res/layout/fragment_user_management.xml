@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.profile.management.UserManagementFragment">
+    tools:context=".ui.main.profile.management.UserManagementFragment">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/um_mcv_add"

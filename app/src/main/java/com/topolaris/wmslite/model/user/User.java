@@ -126,4 +126,13 @@ public class User extends BaseEntity {
                 return "陌生人";
         }
     }
+
+    public User getCopy() {
+        User user = new User();
+        user.setName(name);
+        user.setPassword(password);
+        user.setAuthority(authority);
+        user.setUid(uid);
+        return user;
+    }
 }
