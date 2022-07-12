@@ -106,13 +106,6 @@ public class Cache {
         });
     }
 
-    public static void clearCache() {
-        ordersCache.clear();
-        shipmentsCache.clear();
-        shortageCache.clear();
-        usersCache.clear();
-    }
-
     private static void updateOrdersCache() {
         ThreadPool.EXECUTOR.execute(() -> ordersCache = DatabaseUtil.executeSqlWithResult("select * from purchase;", Order.class));
         ThreadPool.EXECUTOR.execute(() -> shortageCache = DatabaseUtil.executeSqlWithResult("select * from shortage;", Order.class));

@@ -32,18 +32,16 @@ public class DatabaseUtil {
         Connection connection = MySqlConnector.getConnection();
         try {
             PreparedStatement stmt = connection.prepareStatement(sqlString);
-            // 关闭事务自动提交
             connection.setAutoCommit(false);
             stmt.addBatch();
             stmt.executeBatch();
             connection.commit();
             stmt.close();
-            return true;
         } catch (SQLException e) {
-            Log.e(TAG, "executeSqlWithoutResult: " + sqlString);
             e.printStackTrace();
             try {
                 connection.rollback();
+                return false;
             } catch (SQLException exception) {
                 exception.printStackTrace();
             }
@@ -54,7 +52,7 @@ public class DatabaseUtil {
                 exception.printStackTrace();
             }
         }
-        return false;
+        return true;
     }
 
     /**
@@ -65,39 +63,39 @@ public class DatabaseUtil {
      * @param <E>       返回数据对应的实体类类型
      * @return 返回对象集合
      */
-    public static <E extends BaseEntity> ArrayList<E> executeSqlWithResult(String sqlString, Class<E> eClass) {
-        // 数据请求失败返回null，空数据返回空集合
-        Connection connection = MySqlConnector.getConnection();
-        ArrayList<E> result = new ArrayList<>();
-        HashMap<String, String> map = new HashMap<>(8);
-        try {
-            result = new ArrayList<>();
-            Statement stmt = connection.createStatement();
-            ResultSet res = stmt.executeQuery(sqlString);
-            if (res != null) {
-                while (res.next()) {
-                    try {
-                        E e = eClass.newInstance();
-                        for (int i = 1; i <= res.getMetaData().getColumnCount(); i++) {
-                            String field = res.getMetaData().getColumnName(i);
-                            map.put(field, res.getString(field));
-                        }
-                        e.convertFromMap(map);
-                        result.add(e);
-                    } catch (IllegalAccessException | InstantiationException illegalAccessException) {
-                        illegalAccessException.printStackTrace();
+public static <E extends BaseEntity> ArrayList<E> executeSqlWithResult(String sqlString, Class<E> eClass) {
+    // 数据请求失败返回null，空数据返回空集合
+    Connection connection = MySqlConnector.getConnection();
+    ArrayList<E> result = new ArrayList<>();
+    HashMap<String, String> map = new HashMap<>(8);
+    try {
+        result = new ArrayList<>();
+        Statement stmt = connection.createStatement();
+        ResultSet res = stmt.executeQuery(sqlString);
+        if (res != null) {
+            while (res.next()) {
+                try {
+                    E e = eClass.newInstance();
+                    for (int i = 1; i <= res.getMetaData().getColumnCount(); i++) {
+                        String field = res.getMetaData().getColumnName(i);
+                        map.put(field, res.getString(field));
                     }
+                    e.convertFromMap(map);
+                    result.add(e);
+                } catch (IllegalAccessException | InstantiationException illegalAccessException) {
+                    illegalAccessException.printStackTrace();
                 }
-                res.close();
             }
-            stmt.close();
-            connection.close();
-        } catch (SQLException e) {
-            Log.e(TAG, "executeSqlWithResult: " + sqlString);
-            e.printStackTrace();
+            res.close();
         }
-        return result;
+        stmt.close();
+        connection.close();
+    } catch (SQLException e) {
+        Log.e(TAG, "executeSqlWithResult: " + sqlString);
+        e.printStackTrace();
     }
+    return result;
+}
 
     /**
      * 使用管理员权限的连接解析有返回数据的Sql语句
@@ -181,17 +179,20 @@ public class DatabaseUtil {
                 sqlList.add("grant all privileges on wmsdatabase.goodsinfo to " + newUser.getName() + ";");
                 sqlList.add("grant all privileges on wmsdatabase.purchase to " + newUser.getName() + ";");
                 sqlList.add("grant all privileges on wmsdatabase.shortage to " + newUser.getName() + ";");
+                sqlList.add("grant select on wmsdatabase.popular_goods to " + newUser.getName() + ";");
                 break;
             case UserAuthority.SHIPMENT:
                 sqlList.add("grant all privileges on wmsdatabase.goodsinfo to " + newUser.getName() + ";");
                 sqlList.add("grant all privileges on wmsdatabase.shipment to " + newUser.getName() + ";");
                 sqlList.add("grant all privileges on wmsdatabase.shortage to " + newUser.getName() + ";");
+                sqlList.add("grant select on wmsdatabase.popular_goods to " + newUser.getName() + ";");
                 break;
             case UserAuthority.CHECKER:
                 sqlList.add("grant all privileges on wmsdatabase.goodsinfo to " + newUser.getName() + ";");
                 sqlList.add("grant all privileges on wmsdatabase.shipment to " + newUser.getName() + ";");
                 sqlList.add("grant all privileges on wmsdatabase.purchase to " + newUser.getName() + ";");
                 sqlList.add("grant all privileges on wmsdatabase.shortage to " + newUser.getName() + ";");
+                sqlList.add("grant select on wmsdatabase.popular_goods to " + newUser.getName() + ";");
                 break;
             default:
                 break;

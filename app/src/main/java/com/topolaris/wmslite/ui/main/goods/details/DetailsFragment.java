@@ -131,6 +131,9 @@ public class DetailsFragment extends Fragment {
         name.setOnClickListener(v -> getDialogText(name));
         manufacturer.setOnClickListener(v -> getDialogText(manufacturer));
         location.setOnClickListener(v -> getDialogText(location));
+        if (authority != UserAuthority.SHIPMENT) {
+            shortageButton.setVisibility(View.GONE);
+        }
     }
 
 

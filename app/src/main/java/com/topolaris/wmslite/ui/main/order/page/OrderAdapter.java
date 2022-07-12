@@ -88,7 +88,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderPageAda
             Bundle bundle = new Bundle();
             bundle.putParcelable("goods", goods);
             bundle.putParcelable("order", order);
-            // TODO: 2021/6/9  
             if (type == OrderType.PURCHASE) {
                 bundle.putString("table", "purchase");
             } else if (type == OrderType.SHIPMENT) {

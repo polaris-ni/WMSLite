@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -32,13 +33,15 @@ import java.util.Objects;
  * description 登录界面
  * @date 2021/6/7 14:32
  */
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
     TextView forgot;
     EditText usernameEditText, passwordEditText;
     Button loginButton;
     AlertDialog waitingDialog;
     SwitchMaterial switchMaterial;
     SharedPreferences sharedPreferences;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,5 +149,10 @@ public class LoginActivity extends AppCompatActivity {
             editor.putBoolean("isRemembered", false);
         }
         editor.apply();
+    }
+
+    @Override
+    public void onClick(View v) {
+        // TODO: 2021/7/3
     }
 }

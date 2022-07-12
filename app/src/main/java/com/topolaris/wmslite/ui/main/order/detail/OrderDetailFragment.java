@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,8 @@ import com.topolaris.wmslite.utils.WmsLiteApplication;
 /**
  * @author Liangyong Ni
  * description 订单详情界面
+ * TODO: 2021/6/21 采购订单确认时使用触发器
+ * TODO: 2021/6/21 销售订单不够自动登记使用触发器
  * @date 2021/6/9 20:20:32
  */
 public class OrderDetailFragment extends Fragment {
@@ -96,11 +99,20 @@ public class OrderDetailFragment extends Fragment {
     }
 
     private void setClickListener() {
+        Log.e("TAG", "setClickListener: " + account);
         delete.setOnClickListener(v -> showConfirmDialog("delete from " + tableName + " where id = " + order.getId()));
         save.setOnClickListener(v -> showConfirmDialog("update " + tableName + " set number = " + Long.parseLong(number.getText().toString()) + " where id = " + order.getId()));
         modify.setOnClickListener(v -> setDialogTextToTextView(number, editTextString -> order.setNumber(Long.parseLong(editTextString))));
-        shortage.setOnClickListener(v -> makeOrder());
+        if (account.getAuthority() == UserAuthority.SHIPMENT) {
+            shortage.setOnClickListener(v -> makeOrder());
+        } else {
+            shortage.setVisibility(View.GONE);
+        }
+        if (account.getAuthority() != UserAuthority.SHIPMENT && account.getAuthority() != UserAuthority.PURCHASER) {
+            modify.setVisibility(View.GONE);
+        }
         revoke.setOnClickListener(v -> showConfirmDialog("update " + tableName + " set executed = 1, revoked = 1 where id = " + order.getId()));
+        // TODO: 2021/6/12 改成触发器执行
         ensure.setOnClickListener(v -> showConfirmDialog("update " + tableName + " set executed = 1 where id = " + order.getId()));
     }
 
@@ -205,7 +217,7 @@ public class OrderDetailFragment extends Fragment {
                 }
             });
         } else {
-            ToastUtil.show("密码输入错误，删除失败");
+            ToastUtil.show("密码输入错误");
         }
     }
 

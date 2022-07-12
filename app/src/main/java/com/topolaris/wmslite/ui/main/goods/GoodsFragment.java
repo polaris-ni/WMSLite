@@ -1,5 +1,6 @@
 package com.topolaris.wmslite.ui.main.goods;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,10 +17,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.card.MaterialCardView;
 import com.topolaris.wmslite.R;
-import com.topolaris.wmslite.model.user.UserAuthority;
 import com.topolaris.wmslite.repository.local.Cache;
-import com.topolaris.wmslite.utils.ToastUtil;
-import com.topolaris.wmslite.utils.WmsLiteApplication;
 
 /**
  * @author Liangyong Ni
@@ -27,13 +25,11 @@ import com.topolaris.wmslite.utils.WmsLiteApplication;
  * @date 2021/5/19 15:32
  */
 public class GoodsFragment extends Fragment {
-//    private static final String TAG = "GoodsFragment";
 
     RecyclerView allRecyclerView, popularRecyclerView;
     private GoodsViewModel mViewModel;
     private SwipeRefreshLayout swipeRefreshLayout;
     private MaterialCardView addGoods, search;
-    private int authority;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -41,11 +37,11 @@ public class GoodsFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_goods, container, false);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(GoodsViewModel.class);
-        authority = WmsLiteApplication.getAccount().getAuthority();
         initView();
 
         allRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -79,11 +75,7 @@ public class GoodsFragment extends Fragment {
     }
 
     private void setAddGoodsListener(MaterialCardView addGoods) {
-        if (authority == UserAuthority.SHIPMENT) {
-            addGoods.setOnClickListener(v -> ToastUtil.show("权限不够，无法操作"));
-        } else {
-            addGoods.setOnClickListener(v -> Navigation.findNavController(requireView()).navigate(R.id.action_nav_goods_to_nav_details));
-        }
+        addGoods.setOnClickListener(v -> Navigation.findNavController(requireView()).navigate(R.id.action_nav_goods_to_nav_details));
     }
 
     private void initView() {

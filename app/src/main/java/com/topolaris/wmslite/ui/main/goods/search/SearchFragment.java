@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SearchView;
 
@@ -31,15 +30,11 @@ public class SearchFragment extends Fragment {
     private SearchViewModel mViewModel;
     private SearchView searchView;
     private RadioGroup radioGroup;
-    private RadioButton purchaseRadioButton, shipmentRadioButton, shortageRadioButton;
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private OrderType type = OrderType.SHORTAGE;
     private String goodsName = "";
 
-    public static SearchFragment newInstance() {
-        return new SearchFragment();
-    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -111,9 +106,6 @@ public class SearchFragment extends Fragment {
     private void initView() {
         searchView = requireView().findViewById(R.id.search_search);
         radioGroup = requireView().findViewById(R.id.search_rg);
-        purchaseRadioButton = requireView().findViewById(R.id.search_rb_purchase);
-        shipmentRadioButton = requireView().findViewById(R.id.search_rb_shipment);
-        shortageRadioButton = requireView().findViewById(R.id.search_rb_shortage);
         swipeRefreshLayout = requireView().findViewById(R.id.search_swipe_refresh);
         recyclerView = requireView().findViewById(R.id.search_rv);
     }
